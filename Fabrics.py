@@ -1,6 +1,7 @@
 import Rectangle
 import Grass
 import Road
+import Block
 
 
 class CellFabric(object):
@@ -27,3 +28,9 @@ class RoadFabric(CellFabric):
     @staticmethod
     def new_cell(position, size, **kwargs) -> Rectangle:
         return Road.Road(position, size, kwargs.get('groups'))
+
+
+class BlockFabric(CellFabric):
+    @staticmethod
+    def new_cell(position, size, **kwargs):
+        return Block.Block(position, size, kwargs.get('groups'))

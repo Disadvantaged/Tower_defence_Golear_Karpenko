@@ -7,14 +7,15 @@ import config
 
 
 class World:
-    test
     def __init__(self, world_name):
         self.tile_size = config.DEFAULT_TILESIZE
         self.width = self.height = self.start_x = self.start_y = 0
         self.layout = []
         self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
         self.cell_generator[0] = Fabrics.GrassFabric
-        self.cell_generator[1] = Fabrics.RoadFabric
+        self.cell_generator[1] = Fabrics.BlockFabric
+        self.cell_generator[2] = Fabrics.RoadFabric
+        self.cell_generator[3] = Fabrics.RoadFabric
         self.load_level(world_name)
 
     def load_level(self, world_name):
