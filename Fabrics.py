@@ -1,5 +1,5 @@
-import Rectangle
 import Grass
+import Rectangle
 import Road
 
 
@@ -12,7 +12,7 @@ class CellFabric(object):
         :param kwargs: can contain img and groups
         :return: created cell
         """
-        img = kwargs.get('img')
+        img = kwargs.get('img')  # by default: None
         groups = kwargs.get('groups')
         return Rectangle.Rectangle(position, size, img, groups)
 

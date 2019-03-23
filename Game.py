@@ -1,8 +1,7 @@
 import pygame
-from Grass import Grass
-from Road import Road
-from World import World
+
 import config
+from World import World
 
 
 class Game(object):
@@ -27,10 +26,6 @@ class Game(object):
         Loads data from assets.
         """
         self.world = World(config.WORLD1)
-        grass = Grass((50, 50), (40, 40))
-        road = Road((400, 400), (50, 50))
-        self.cells.append(grass)
-        self.cells.append(road)
 
     def new(self):
         """
