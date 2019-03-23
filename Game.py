@@ -6,6 +6,10 @@ import config
 
 
 class Game(object):
+    """
+    Basic game class. Keeps information of all the game data. Handles user input and main loop
+    """
+
     def __init__(self):
         self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         pygame.display.set_caption(config.TITLE)
@@ -14,11 +18,14 @@ class Game(object):
         self.caption = config.TITLE
         self.cells = []
         self.world = None
-        self.pressed_cell = None
+        self.pressed_cell = None  # if player pressed on the cell, shows it's information
 
         self.load_data()
 
     def load_data(self):
+        """
+        Loads data from assets.
+        """
         self.world = World(config.WORLD1)
         grass = Grass((50, 50), (40, 40))
         road = Road((400, 400), (50, 50))
@@ -26,10 +33,19 @@ class Game(object):
         self.cells.append(road)
 
     def new(self):
+        """
+        Adds all the added sprites to the screen and initializes the game.
+        """
         for cell in self.cells:
             self.screen.blit(cell.get_image(), cell.get_position())
+        for cell_row in self.world.get_layout():
+            for cell in cell_row:
+                self.screen.blit(cell.get_image(), cell.get_position())
 
     def handle_events(self):
+        """
+        Reads user input.
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -38,6 +54,10 @@ class Game(object):
                 self.check_mouse_pressed(event.pos)
 
     def check_mouse_pressed(self, pos):
+        """
+        If player pressed left mouse button, checks if he pressed on a cell or not.
+        :param pos: position of mouse click.
+        """
         for cell in self.cells:
             if cell.get_rect().collidepoint(pos):
                 self.pressed_cell = cell

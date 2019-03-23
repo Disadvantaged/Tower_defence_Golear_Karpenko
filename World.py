@@ -1,5 +1,6 @@
 import pygame
 import Rectangle
+import collections
 import Fabrics
 import os
 import config
@@ -10,10 +11,16 @@ class World:
         self.tile_size = config.DEFAULT_TILESIZE
         self.width = self.height = self.start_x = self.start_y = 0
         self.layout = []
+        self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
+        self.cell_generator[0] = Fabrics.GrassFabric
+        self.cell_generator[1] = Fabrics.RoadFabric
         self.load_level(world_name)
-        self.cell_generator = [Grass_Fabric, Road_Fabric]
 
     def load_level(self, world_name):
+        """
+        Loads level from file. Then processes it and creates Tiles.
+        :param world_name: String, filename of world file
+        """
         self.empty_data()
         path = os.path.join('assets', config.WORLD_FOLDER, world_name)
         with open(path, 'r') as f:
@@ -30,12 +37,18 @@ class World:
                                    str(len(layout)))
         self.tile_size = config.SCREEN_WIDTH // self.width, config.SCREEN_HEIGHT // self.height
         for row in range(len(layout)):
-            for col in range(len(layout[y])):
+            cell_row = []
+            for col in range(len(layout[row])):
                 x = col * self.tile_size[0]
                 y = row * self.tile_size[1]
-                cell_row = []
-                if layout[row][col] == 0:
-                    cell = ((x, y), self.tile_size)
+                cell_row.append(self.cell_generator[int(layout[row][col])].new_cell((x, y), self.tile_size))
+            self.layout.append(cell_row)
+
+    def get_layout(self):
+        return self.layout
+
+    def get_row(self, i):
+        return self.layout[i]
 
     def empty_data(self):
         self.width = self.height = self.start_y = self.start_x = 0
