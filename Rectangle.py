@@ -28,6 +28,9 @@ class Rectangle(pygame.sprite.Sprite):
     def get_image(self):
         return self.image
 
+    def set_image(self, image):
+        self.image = image
+
     def copy(self, position=None):
         """
         :param position: the position for new rectangle. None if position as in self
