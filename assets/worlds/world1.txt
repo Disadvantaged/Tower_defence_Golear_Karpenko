@@ -1,12 +1,3 @@
-200
-15
-redtower greentower bluetower
-mudtrap lavatrap
-4
-1 redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep
-1 redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep redcreep yellowcreep
-1 yellowcreep yellowcreep yellowcreep yellowcreep yellowcreep
-1 bluecreep
 36 33 0 3
 000000000000000000000000000000000000
 000000000000000000000000000000000000
