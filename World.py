@@ -7,6 +7,7 @@ import config
 
 
 class World:
+    test
     def __init__(self, world_name):
         self.tile_size = config.DEFAULT_TILESIZE
         self.width = self.height = self.start_x = self.start_y = 0
