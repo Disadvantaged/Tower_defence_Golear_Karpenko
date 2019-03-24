@@ -1,6 +1,8 @@
-import pygame
-import config
 import os
+
+import pygame
+
+import config
 
 
 class Rectangle(pygame.sprite.Sprite):
