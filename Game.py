@@ -1,6 +1,7 @@
 import pygame
-from World import World
+
 import config
+from World import World
 
 
 class Game(object):
@@ -67,11 +68,12 @@ class Game(object):
         pass
 
     def draw(self):
-        pass
+        self.all_sprites.draw(self.screen)
 
     def main_loop(self):
         while True:
             self.clock.tick(self.FPS)
 
             self.handle_events()
+            self.draw()
             pygame.display.update()

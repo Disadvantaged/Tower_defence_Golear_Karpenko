@@ -1,8 +1,6 @@
-import pygame
-import Rectangle
 import collections
-import Fabrics
 import os
+import Fabrics
 import config
 
 
