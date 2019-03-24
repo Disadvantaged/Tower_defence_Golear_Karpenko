@@ -16,13 +16,21 @@ class Game(object):
         self.FPS = config.FPS
         self.caption = config.TITLE
         self.cells = []
-        self.world = None
         self.pressed_cell = None  # if player pressed on the cell, shows it's information
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
-        self.load_data()
+        self.world = None
+        self.load()
 
-    def load_data(self):
+        self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
+        self.world.set_rect(self.screen.blit(self.field, (0, 0)))
+        self.menu = pygame.Surface((config.MENU_WIDTH, config.MENU_HEIGHT))
+        self.menu.fill(config.RED)
+        self.screen.blit(self.menu, (0, config.FIELD_HEIGHT))
+
+
+
+    def load(self):
         """
         Loads data from assets.
         """
@@ -36,7 +44,7 @@ class Game(object):
         """
         Adds all the added sprites to the screen and initializes the game.
         """
-        self.all_sprites.draw(self.screen)
+        self.all_sprites.draw(self.field)
 
     def handle_events(self):
         """

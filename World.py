@@ -2,6 +2,7 @@ import collections
 import os
 import Fabrics
 import config
+import pygame
 
 
 class World:
@@ -14,9 +15,13 @@ class World:
         self.cell_generator[1] = Fabrics.BlockFabric
         self.cell_generator[2] = Fabrics.RoadFabric
         self.cell_generator[3] = Fabrics.RoadFabric
-        self.load_level(world_name)
+        self.rect = None
+        self.load_data(world_name)
 
-    def load_level(self, world_name):
+    def set_rect(self, rect):
+        self.rect = rect
+
+    def load_data(self, world_name):
         """
         Loads level from file. Then processes it and creates Tiles.
         :param world_name: String, filename of world file
@@ -35,7 +40,7 @@ class World:
             if len(layout) != self.height:
                 raise RuntimeError('file format is wrong: expected ' + str(self.height) + ' rows buf found ' +
                                    str(len(layout)))
-        self.tile_size = config.SCREEN_WIDTH // self.width, config.SCREEN_HEIGHT // self.height
+        self.tile_size = config.FIELD_WIDTH // self.width, config.FIELD_HEIGHT // self.height
         for row in range(len(layout)):
             cell_row = []
             for col in range(len(layout[row])):
