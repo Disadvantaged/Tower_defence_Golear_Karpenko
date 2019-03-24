@@ -18,7 +18,8 @@ class Game(object):
         self.cells = []
         self.world = None
         self.pressed_cell = None  # if player pressed on the cell, shows it's information
-
+        self.all_sprites = pygame.sprite.Group()
+        self.tiles = pygame.sprite.Group()
         self.load_data()
 
     def load_data(self):
@@ -26,16 +27,16 @@ class Game(object):
         Loads data from assets.
         """
         self.world = World(config.WORLD1)
+        for row in self.world.get_layout():
+            self.tiles.add(*row)
+            self.all_sprites.add(*row)
+            self.cells.extend(row)
 
     def new(self):
         """
         Adds all the added sprites to the screen and initializes the game.
         """
-        for cell in self.cells:
-            self.screen.blit(cell.get_image(), cell.get_position())
-        for cell_row in self.world.get_layout():
-            for cell in cell_row:
-                self.screen.blit(cell.get_image(), cell.get_position())
+        self.all_sprites.draw(self.screen)
 
     def handle_events(self):
         """
@@ -55,17 +56,19 @@ class Game(object):
         """
         for cell in self.cells:
             if cell.get_rect().collidepoint(pos):
-                self.pressed_cell = cell
-        else:
-            if self.pressed_cell is not None:
-                x = pos[0] - self.pressed_cell.get_width() // 2
-                y = pos[1] - self.pressed_cell.get_height() // 2
-                rect = pygame.Rect(x, y, self.pressed_cell.get_width(), self.pressed_cell.get_height())
-                if rect.collidelist(self.cells) == -1:
-                    new_cell = self.pressed_cell.copy((x, y))
+                if self.pressed_cell is None:
+                    self.pressed_cell = cell
+                    print('pressed')
+                    break
+                else:
+                    cell.set_image(self.pressed_cell.get_image().copy())
                     self.pressed_cell = None
-                    self.screen.blit(new_cell.get_image(), new_cell.get_position())
-                    self.cells.append(new_cell)
+
+    def update(self):
+        pass
+
+    def draw(self):
+        pass
 
     def main_loop(self):
         while True:

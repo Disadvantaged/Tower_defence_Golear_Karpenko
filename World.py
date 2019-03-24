@@ -12,7 +12,9 @@ class World:
         self.layout = []
         self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
         self.cell_generator[0] = Fabrics.GrassFabric
-        self.cell_generator[1] = Fabrics.RoadFabric
+        self.cell_generator[1] = Fabrics.BlockFabric
+        self.cell_generator[2] = Fabrics.RoadFabric
+        self.cell_generator[3] = Fabrics.RoadFabric
         self.load_level(world_name)
 
     def load_level(self, world_name):
