@@ -1,6 +1,8 @@
-import pygame
-import config
 import os
+
+import pygame
+
+import config
 
 
 class Rectangle(pygame.sprite.Sprite):
@@ -27,6 +29,9 @@ class Rectangle(pygame.sprite.Sprite):
 
     def get_image(self):
         return self.image
+
+    def set_image(self, image):
+        self.image = image
 
     def copy(self, position=None):
         """
