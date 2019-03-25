@@ -1,11 +1,11 @@
 import collections
 import os
+
 import Fabrics
 import config
-import pygame
 
 
-class World:
+class World(object):
     def __init__(self, world_name):
         self.tile_size = config.DEFAULT_TILESIZE
         self.width = self.height = self.start_x = self.start_y = 0
@@ -20,6 +20,9 @@ class World:
 
     def set_rect(self, rect):
         self.rect = rect
+
+    def get_rect(self):
+        return self.rect
 
     def load_data(self, world_name):
         """
