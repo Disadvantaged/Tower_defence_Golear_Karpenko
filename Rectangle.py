@@ -47,11 +47,14 @@ class Rectangle(pygame.sprite.Sprite):
     def get_rect(self):
         return self.rect
 
+    def set_rect(self, rect):
+        self.rect = rect
+
     def get_position(self):
         return self.position
 
-    def set_position(self, x, y):
-        self.position = (x, y)
+    def set_position(self, pos):
+        self.position = pos
         self.rect = pygame.Rect(self.position, self.size)
 
     def get_width(self):

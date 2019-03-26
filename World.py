@@ -1,10 +1,11 @@
 import collections
 import os
+
 import Fabrics
 import config
 
 
-class World:
+class World(object):
     def __init__(self, world_name):
         self.tile_size = config.DEFAULT_TILESIZE
         self.width = self.height = 0
