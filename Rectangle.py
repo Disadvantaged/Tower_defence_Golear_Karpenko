@@ -13,6 +13,8 @@ class Rectangle(pygame.sprite.Sprite):
         :param image: filename or prepared image
         """
         pygame.sprite.Sprite.__init__(self)
+        if position is None:
+            position = (0, 0)
         self.position = position
         self.size = size
         self.rect = pygame.Rect(*position, *size)
@@ -31,7 +33,15 @@ class Rectangle(pygame.sprite.Sprite):
         return self.image
 
     def set_image(self, image):
-        self.image = image
+        """
+        :param image: if type == str then appends assets and loads image. else copies the image
+        :return: None
+        """
+        if isinstance(image, str):
+            image = os.path.join('assets', 'images', image)
+            self.image = pygame.image.load(image).convert_alpha()
+        else:
+            self.image = image.copy()
 
     def copy(self, position=None):
         """

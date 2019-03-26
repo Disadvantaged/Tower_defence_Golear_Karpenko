@@ -80,6 +80,7 @@ class Game(object):
 
     def draw(self):
         self.all_sprites.draw(self.screen)
+        self.menu.draw(self.screen)
 
     def main_loop(self):
         while True:
