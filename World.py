@@ -11,7 +11,7 @@ class World(object):
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []
-        self.start = (0, 0)
+        self.start = self.last = (0, 0)
         self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
         self.cell_generator[0] = Fabrics.GrassFabric
         self.cell_generator[1] = Fabrics.BlockFabric
@@ -20,6 +20,7 @@ class World(object):
         self.rect = None
         self.waypoints = []
         self.load_data(world_name)
+        self.last = self.waypoints[-1]
 
     def get_tile_size(self):
         return self.tile_size
