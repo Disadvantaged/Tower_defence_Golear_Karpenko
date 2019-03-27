@@ -3,6 +3,8 @@ import pygame
 import config
 from Menu import Menu
 from World import World
+from Enemy import Enemy
+from EnemyController import EnemyController
 
 
 class Game(object):
@@ -27,6 +29,9 @@ class Game(object):
         self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
         self.world.set_rect(self.screen.blit(self.field, (0, 0)))
 
+        self.enemies = EnemyController(self)
+        self.all_sprites.add(self.enemies.get_enemies())
+
     def load(self):
         """
         Loads data from assets.
@@ -43,6 +48,7 @@ class Game(object):
         """
         self.menu.draw(self.screen)
         self.all_sprites.draw(self.field)
+        self.enemies.draw(self.field)
 
     def handle_events(self):
         """
@@ -76,16 +82,18 @@ class Game(object):
                     item.action(pos)
 
     def update(self):
-        pass
+        self.enemies.update(self.world.get_rect())
 
     def draw(self):
-        self.all_sprites.draw(self.screen)
-        self.menu.draw(self.screen)
+        self.all_sprites.draw(self.field)
+        self.enemies.draw(self.field)
 
     def main_loop(self):
         while True:
             self.clock.tick(self.FPS)
 
             self.handle_events()
+            self.update()
             self.draw()
+            self.screen.blit(self.field, self.field.get_rect())
             pygame.display.update()

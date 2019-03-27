@@ -6,7 +6,7 @@ import config
 
 
 class Rectangle(pygame.sprite.Sprite):
-    def __init__(self, position, size, image=None, groups=None):
+    def __init__(self, position, size, image=None):
         """
         :param position: tuple(left, top)
         :param size: int tuple(width, height)
@@ -23,11 +23,9 @@ class Rectangle(pygame.sprite.Sprite):
             image = 'empty.png'
         if isinstance(image, str):
             self.image = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert_alpha()
-            self.image = pygame.transform.scale(self.image, size)
+            self._rescale()
         elif isinstance(image, pygame.Surface):
             self.image = image.copy()
-        if groups is not None:
-            self.add(*groups)
 
     def get_image(self):
         return self.image
@@ -43,6 +41,10 @@ class Rectangle(pygame.sprite.Sprite):
         else:
             self.image = image.copy()
         self.image = pygame.transform.scale(self.image, self.size)
+
+    def move(self, x, y):
+        self.position = (self.position[0] + x, self.position[1] + y)
+        self.rect.move_ip(x, y)
 
     def copy(self, position=None):
         """
@@ -60,6 +62,16 @@ class Rectangle(pygame.sprite.Sprite):
 
     def set_rect(self, rect):
         self.rect = rect
+        self.size = self.rect.size
+        self._rescale()
+
+    def set_size(self, size):
+        self.size = size
+        self.rect.size = self.size
+        self._rescale()
+
+    def _rescale(self):
+        self.image = pygame.transform.scale(self.image, self.size)
 
     def get_position(self):
         return self.position

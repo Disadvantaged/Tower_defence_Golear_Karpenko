@@ -17,8 +17,8 @@ class Button(Rectangle):
 
 
 class ExitButton(Button):
-    def __init__(self, position, groups=None):
-        super().__init__(position, 'quit.png', groups=groups)
+    def __init__(self, position):
+        super().__init__(position, 'quit.png')
 
     def action(self, pos):
         pygame.quit()
