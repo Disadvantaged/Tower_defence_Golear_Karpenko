@@ -11,7 +11,7 @@ class World(object):
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []
-        self.start = 0
+        self.start = self.last = (0, 0)
         self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
         self.cell_generator[0] = Fabrics.GrassFabric
         self.cell_generator[1] = Fabrics.BlockFabric
@@ -20,6 +20,19 @@ class World(object):
         self.rect = None
         self.waypoints = []
         self.load_data(world_name)
+        self.last = self.waypoints[-1]
+
+    def get_tile_size(self):
+        return self.tile_size
+
+    def get_waypoints(self):
+        return self.waypoints
+
+    def get_last_position(self):
+        return self.last[0] * self.tile_size[0], self.last[1] * self.tile_size[1]
+
+    def get_starting_position(self):
+        return self.start[0] * self.tile_size[0], self.start[1] * self.tile_size[1]
 
     def set_rect(self, rect):
         self.rect = rect
@@ -35,7 +48,11 @@ class World(object):
         self.empty_data()
         self.load_layout(world_name)
         self.tile_size = config.FIELD_WIDTH // self.width, config.FIELD_HEIGHT // self.height
-        self.waypoints = self.get_waypoints()
+        self.transform_waypoints(self.load_waypoints())
+
+    def transform_waypoints(self, waypoints):
+        for way_point in waypoints:
+            self.waypoints.append((way_point[0] * self.tile_size[0], way_point[1] * self.tile_size[1]))
 
     def load_layout(self, world_name):
         path = os.path.join('assets', config.WORLD_FOLDER, world_name)
@@ -53,10 +70,11 @@ class World(object):
                 raise RuntimeError('file format is wrong: expected ' + str(self.height) + ' rows buf found ' +
                                    str(len(layout)))
 
-    def get_waypoints(self):
+    def load_waypoints(self):
         waypoints = []
         for row in range(len(self.tile_types)):
             cell_row = []
+
             for col in range(len(self.tile_types[row])):
                 x = col * self.tile_size[0]
                 y = row * self.tile_size[1]
@@ -64,8 +82,7 @@ class World(object):
                     waypoints.append((col, row))
                 cell_row.append(self.cell_generator[self.tile_types[row][col]].new_cell((x, y), self.tile_size))
             self.layout.append(cell_row)
-        waypoints = self.order_waypoints(self.tile_types, waypoints)
-        return waypoints
+        return self.order_waypoints(self.tile_types, waypoints)
 
     def order_waypoints(self, layout, waypoints):
         cur_pos = self.start
@@ -144,4 +161,4 @@ class World(object):
         self.waypoints = []
         self.tile_types = []
         self.layout = []
-        self.start = (0, 0)
+        self.start = self.last = (0, 0)
