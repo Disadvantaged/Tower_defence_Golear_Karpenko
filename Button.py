@@ -7,17 +7,17 @@ from Rectangle import Rectangle
 
 
 class Button(Rectangle):
-    def __init__(self, position, image=None, groups=None):
+    def __init__(self, position, image=None):
         img = os.path.join(config.BUTTON_PATH, image)
-        super().__init__(position, (config.BUTTON_WIDTH, config.BUTTON_HEIGHT), img, groups)
+        super().__init__(position, (config.BUTTON_WIDTH, config.BUTTON_HEIGHT), img)
 
     def action(self, pos):
         raise NotImplementedError
 
 
 class ExitButton(Button):
-    def __init__(self, position, groups=None):
-        super().__init__(position, 'quit.png', groups=groups)
+    def __init__(self, position):
+        super().__init__(position, 'quit.png')
 
     def action(self, pos):
         pygame.quit()
