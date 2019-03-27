@@ -38,10 +38,11 @@ class Rectangle(pygame.sprite.Sprite):
         :return: None
         """
         if isinstance(image, str):
-            image = os.path.join('assets', 'images', image)
+            image = os.path.join('assets', config.IMG_FOLDER, image)
             self.image = pygame.image.load(image).convert_alpha()
         else:
             self.image = image.copy()
+        self.image = pygame.transform.scale(self.image, self.size)
 
     def copy(self, position=None):
         """

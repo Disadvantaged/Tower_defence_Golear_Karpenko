@@ -13,11 +13,10 @@ class Menu(Rectangle):
         self.b_color = b_color
         self.items = pygame.sprite.Group()
         self.rect = pygame.Rect(position, (width, height))
-        # self.add_button(button_type=NewWaveButton)
-        # self.add_button(button_type=PlayButton)
-        # self.add_button(button_type=ExitButton)
+        self.add_button(button_type=NewWaveButton)
+        self.add_button(button_type=PlayButton)
+        self.add_button(button_type=ExitButton)
         self.tower_num = 0
-        self.tower_row = 1
         self.curr_tow = 0
         self.dist_tow_but = 20
         self.towers_data = []
@@ -58,10 +57,9 @@ class Menu(Rectangle):
         return pos
 
     def next_TowBut_position(self, btn):
-        pos = (self.rect.centerx - self.rect.centerx // 1.8 + (self.dist_tow_but + BUTTON_WIDTH) * self.curr_tow,
-               self.rect.centery // 3 - (BUTTON_HEIGHT + self.dist_tow_but) * self.tower_row)
-        if self.curr_tow == 3:
-            self.tower_row += 1
+        pos = (self.rect.centerx - self.rect.centerx // 1.2 + (self.dist_tow_but),
+               self.rect.centery - btn.get_height() // 2)
+        self.dist_tow_but += BUTTON_WIDTH
         return pos
 
     def draw(self, surface):
@@ -73,4 +71,4 @@ class Menu(Rectangle):
         with open(path, 'r') as f:
             self.tower_num = int(f.readline()[:1])
             for line in f:
-                self.towers_data.append(line)
+                self.towers_data.append(line.strip())
