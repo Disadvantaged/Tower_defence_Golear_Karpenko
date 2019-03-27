@@ -1,0 +1,4 @@
+3
+image=towers/tower1.png
+image=towers/tower2.png
+image=towers/tower3.png
