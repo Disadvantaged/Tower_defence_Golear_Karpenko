@@ -23,6 +23,7 @@ class Game(object):
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
         self.world = None
+        self.game_started = False
         self.menu = Menu((0, config.FIELD_HEIGHT), config.MENU_WIDTH, config.MENU_HEIGHT)
         self.load()
 
@@ -31,6 +32,9 @@ class Game(object):
 
         self.enemies = EnemyController(self)
         self.all_sprites.add(self.enemies.get_enemies())
+
+    def start_game(self):
+        self.game_started = True
 
     def load(self):
         """

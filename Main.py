@@ -3,11 +3,12 @@ from Game import Game
 
 pygame.init()
 
+g_game = Game()
+
 
 def main():
-    game = Game()
-    game.new()
-    game.main_loop()
+    g_game.new()
+    g_game.main_loop()
 
 
 if __name__ == '__main__':

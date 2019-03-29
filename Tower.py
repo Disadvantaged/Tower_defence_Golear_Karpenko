@@ -5,10 +5,10 @@ from Rectangle import Rectangle
 
 
 class Tower(Rectangle):
-    def __init__(self, position=None, image=None, groups=None):
+    def __init__(self, position=(0, 0), image=None):
         if image is not None:
             image = os.path.join('towers', image)
-        super().__init__(position, (config.DEFAULT_TILESIZE, config.DEFAULT_TILESIZE), image, groups=groups)
+        super().__init__(position, config.DEFAULT_TILESIZE, image)
         self.is_activated = False
         self.range = config.DEFAULT_TOWER_RANGE
 

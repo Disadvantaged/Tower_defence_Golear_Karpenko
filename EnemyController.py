@@ -8,7 +8,7 @@ class EnemyController(object):
         self.waypoints = game.world.get_waypoints()
         self.start = game.world.get_starting_position()
         self.last = game.world.get_last_position()
-        enemy = Enemy(self.start, game.world.get_tile_size(), 'grass.png', num_waypoints=len(self.waypoints))
+        enemy = Enemy(self.start, game.world.get_tile_size(), 'enemy.png', num_waypoints=len(self.waypoints))
         enemy.set_destination(self.waypoints[0])
         self.enemies.add(enemy)
         for elem in self.enemies.sprites():
