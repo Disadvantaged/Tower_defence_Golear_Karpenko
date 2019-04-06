@@ -32,6 +32,8 @@ class Game(object):
 
         self.enemies = EnemyController(self)
         self.all_sprites.add(self.enemies.get_enemies())
+        pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, config.ENEMY_SPAWN_DELAY)
+
 
     def start_game(self):
         self.game_started = True
@@ -64,6 +66,10 @@ class Game(object):
                 exit()
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.check_mouse_pressed(event.pos)
+            elif event.type == config.ENEMY_SPAWN_EVENT:
+                done = self.enemies.spawn()
+                if done:
+                    pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, 0)
 
     def check_mouse_pressed(self, pos):
         """

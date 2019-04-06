@@ -10,7 +10,7 @@ class Tower(Rectangle):
             image = os.path.join('towers', image)
         super().__init__(position, config.DEFAULT_TILESIZE, image)
         self.is_activated = False
-        self.range = config.DEFAULT_TOWER_RANGE
+        self.range = config.TOWER_RANGE_DEFAULT
 
     def set_range(self, range):
         self.range = range

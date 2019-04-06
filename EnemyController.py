@@ -5,14 +5,14 @@ import pygame
 class EnemyController(object):
     def __init__(self, game):
         self.enemies = pygame.sprite.Group()
+        self.game = game
         self.waypoints = game.world.get_waypoints()
         self.start = game.world.get_starting_position()
         self.last = game.world.get_last_position()
-        enemy = Enemy(self.start, game.world.get_tile_size(), 'enemy.png', num_waypoints=len(self.waypoints))
-        enemy.set_destination(self.waypoints[0])
-        self.enemies.add(enemy)
-        for elem in self.enemies.sprites():
-            elem.activate()
+        self.n_wave = 1
+        self.wave_len = 5
+        self.num_enemies = 0
+        pygame.time.set_timer(1, 200)
 
     def get_enemies(self):
         return self.enemies.sprites()
@@ -33,3 +33,14 @@ class EnemyController(object):
 
     def draw(self, surface):
         self.enemies.draw(surface)
+
+    def spawn(self):
+        if self.wave_len == self.num_enemies:
+            return True
+        else:
+            self.num_enemies += 1
+            new_enemy = Enemy(self.start, num_waypoints=len(self.waypoints))
+            new_enemy.set_destination(self.waypoints[0])
+            new_enemy.activate()
+            self.enemies.add(new_enemy)
+            return False

@@ -48,7 +48,6 @@ class Menu(Rectangle):
         else:
             pos = self.next_TowBut_position(button)
             button.set_position(pos)
-            print(button.get_position())
         self.items.add(button)
 
     def next_item_position(self, btn):

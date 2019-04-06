@@ -8,7 +8,7 @@ def normalize(heading):
 
 
 class Enemy(Rectangle.Rectangle):
-    def __init__(self, position, size=config.DEFAULT_ENEMY_SIZE, image='default_enemy.png', num_waypoints=0):
+    def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT, image='enemy.png', num_waypoints=0):
         super().__init__(position, size, image)
         self.speed = config.DEFAULT_ENEMY_SPEED
         self.current_waypoint = 0
@@ -16,9 +16,8 @@ class Enemy(Rectangle.Rectangle):
         self.destination = (0, 0)
         self.heading = (1, 0)
         self.visited = False
-        self.life = config.DEFAULT_ENEMY_LIFE
+        self.life = config.ENEMY_LIFE_DEFAULT
         self.is_active = False
-        print('qwe')
 
     def set_destination(self, destination):
         self.destination = destination
@@ -31,7 +30,6 @@ class Enemy(Rectangle.Rectangle):
         return self.current_waypoint
 
     def update_current_waypoint(self, cur_waypoint, next_waypoint):
-        print('1')
         self.current_waypoint += 1
         if self.current_waypoint == self.num_waypoints:
             self.kill()
