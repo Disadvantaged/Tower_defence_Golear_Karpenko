@@ -32,6 +32,8 @@ class NewWaveButton(Button):
 
     def action(self, pos):
         if config.GAME.enemies.finished:
+            if not config.GAME.game_started:
+                config.GAME.customer.add_money(config.NEW_WAVE_BONUS)
             config.GAME.start_game()
             config.GAME.enemies.reset()
 

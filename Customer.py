@@ -16,6 +16,9 @@ class Customer:
     def enough_money(self):
         return self.money >= self.item.get_price()
 
+    def add_money(self, money):
+        self.money += money
+
     def detach(self):
         print('detached')
         item = self.item

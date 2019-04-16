@@ -16,3 +16,5 @@ class TowerBuilder(object):
             self.button.set_image(value)
         elif attribute == 'range':
             self.button.set_range(int(value))
+        elif attribute == 'price':
+            self.button.set_price(int(value))

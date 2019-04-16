@@ -54,10 +54,6 @@ class Game(object):
         """
         Adds all the added sprites to the screen and initializes the game.
         """
-        self.menu.draw(self.screen)
-        self.all_sprites.add(self.menu.get_items())
-        self.all_sprites.draw(self.field)
-        self.enemies.draw(self.field)
 
     def handle_events(self):
         """

@@ -22,7 +22,9 @@ class Rectangle(pygame.sprite.Sprite):
         if image is None:
             image = 'empty.png'
         if isinstance(image, str):
-            self.image = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert_alpha()
+            if image not in config.ASSETS:
+                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+            self.image = config.ASSETS[image]
             self._rescale()
         elif isinstance(image, pygame.Surface):
             self.image = image.copy()
@@ -36,8 +38,9 @@ class Rectangle(pygame.sprite.Sprite):
         :return: None
         """
         if isinstance(image, str):
-            image = os.path.join('assets', config.IMG_FOLDER, image)
-            self.image = pygame.image.load(image).convert_alpha()
+            if image not in config.ASSETS:
+                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+            self.image = config.ASSETS[image]
         else:
             self.image = image.copy()
         self.image = pygame.transform.scale(self.image, self.size)

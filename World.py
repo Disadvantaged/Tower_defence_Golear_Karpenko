@@ -7,7 +7,7 @@ import config
 
 class World(object):
     def __init__(self, world_name):
-        self.tile_size = config.DEFAULT_TILESIZE
+        self.tile_size = config.TILESIZE_DEFAULT
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []

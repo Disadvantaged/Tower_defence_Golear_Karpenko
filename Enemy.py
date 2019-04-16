@@ -10,7 +10,7 @@ def normalize(heading):
 class Enemy(Rectangle.Rectangle):
     def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT, image='enemy.png', num_waypoints=0):
         super().__init__(position, size, image)
-        self.speed = config.DEFAULT_ENEMY_SPEED
+        self.speed = config.ENEMY_SPEED_DEFAULT
         self.current_waypoint = 0
         self.num_waypoints = num_waypoints
         self.destination = (0, 0)

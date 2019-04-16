@@ -20,7 +20,7 @@ class Menu(Rectangle):
         self.curr_tow = 0
         self.customers_money = config.CUSTOMER_MONEY
         self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, (config.RED))
-        self.customer_status_pos = self.customer_status.get_rect(center=(self.rect.center))
+        self.customer_status_pos = self.customer_status.get_rect(center=self.rect.center)
         self.customer_status_pos.x += 300
         self.dist_tow_but = 20
         self.towers_data = []
@@ -43,6 +43,10 @@ class Menu(Rectangle):
     def update(self):
         self.customers_money = config.GAME.customer.money
         self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, config.RED)
+        for button in self.items:
+            if isinstance(button, Tower):
+                if self.customers_money < button.get_price():
+                    button.get_image()
 
     def add_button(self, button_type=None, button=None):
         """
@@ -67,7 +71,7 @@ class Menu(Rectangle):
         return pos
 
     def next_TowBut_position(self, btn):
-        pos = (self.rect.centerx - self.rect.centerx // 1.2 + (self.dist_tow_but),
+        pos = (self.rect.centerx - self.rect.centerx // 1.2 + self.dist_tow_but,
                self.rect.centery - btn.get_height() // 2)
         self.dist_tow_but += BUTTON_WIDTH
         return pos
