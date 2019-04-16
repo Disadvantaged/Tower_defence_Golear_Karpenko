@@ -48,10 +48,12 @@ class World(object):
         self.empty_data()
         self.load_layout(world_name)
         self.tile_size = config.FIELD_WIDTH // self.width, config.FIELD_HEIGHT // self.height
-        self.transform_waypoints(self.load_waypoints())
+        self.transform_layout()
+        self.order_waypoints(self.tile_types, self.waypoints)
+        self.transform_waypoints()
 
-    def transform_waypoints(self, waypoints):
-        for way_point in waypoints:
+    def transform_waypoints(self):
+        for way_point in self.waypoints:
             self.waypoints.append((way_point[0] * self.tile_size[0], way_point[1] * self.tile_size[1]))
 
     def load_layout(self, world_name):
@@ -59,19 +61,17 @@ class World(object):
         with open(path, 'r') as f:
             self.width, self.height, start_x, start_y = [int(x) for x in f.readline().split()]
             self.start = (start_x, start_y)
-            layout = []
             for i in range(self.height):
                 s = f.readline().strip()
                 if len(s) != self.width:
-                    raise RuntimeError('file format is wrong: expected len = ' + str(self.width) + ' buf found ' +
+                    raise RuntimeError('file format is wrong: expected len = ' + str(self.width) + ' but found ' +
                                        str(len(s)))
                 self.tile_types.append([int(c) for c in s])
             if len(self.tile_types) != self.height:
-                raise RuntimeError('file format is wrong: expected ' + str(self.height) + ' rows buf found ' +
-                                   str(len(layout)))
+                raise RuntimeError('file format is wrong: expected ' + str(self.height) + ' rows but found ' +
+                                   str(len(self.tile_types)))
 
-    def load_waypoints(self):
-        waypoints = []
+    def transform_layout(self):
         for row in range(len(self.tile_types)):
             cell_row = []
 
@@ -79,10 +79,9 @@ class World(object):
                 x = col * self.tile_size[0]
                 y = row * self.tile_size[1]
                 if self.tile_types[row][col] == 3:
-                    waypoints.append((col, row))
+                    self.waypoints.append((col, row))
                 cell_row.append(self.cell_generator[self.tile_types[row][col]].new_cell((x, y), self.tile_size))
             self.layout.append(cell_row)
-        return self.order_waypoints(self.tile_types, waypoints)
 
     def order_waypoints(self, layout, waypoints):
         cur_pos = self.start

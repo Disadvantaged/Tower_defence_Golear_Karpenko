@@ -10,10 +10,14 @@ class Tower(Rectangle):
             image = os.path.join('towers', image)
         super().__init__(position, config.DEFAULT_TILESIZE, image)
         self.is_activated = False
+        self.price = config.TOWER_PRICE
         self.range = config.TOWER_RANGE_DEFAULT
 
-    def set_range(self, range):
-        self.range = range
+    def get_price(self):
+        return self.price
+
+    def set_range(self, ran):
+        self.range = ran
 
     def activate(self):
         self.is_activated = True
@@ -22,4 +26,4 @@ class Tower(Rectangle):
         self.is_activated = False
 
     def action(self, pos):
-        pass
+        print('tower pressed')

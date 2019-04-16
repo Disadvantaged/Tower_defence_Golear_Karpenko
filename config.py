@@ -1,3 +1,4 @@
+import pygame
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -25,6 +26,9 @@ ENEMY_SPAWN_EVENT = 1
 ENEMY_SPAWN_DELAY = 200
 
 
+FONT = None
+
+GAME = None  # When the game created, the Game class will be stored there.
 FPS = 60
 TITLE = "Tower Defense"
 WORLD1 = 'world1.txt'
@@ -34,9 +38,12 @@ IMG_FOLDER = 'images'
 BUTTON_PATH = "buttons/"
 TOWER_FOLDER = 'towers'
 TOWERS_FILE = 'tower.txt'
+TOWER_PRICE = 600
 
 MENU_BG_COLOR = TURQUOISE
 MENU_NUM_BUTTON = 3
 MENU_DIST_BUTTON = 50
+
+CUSTOMER_MONEY = 1000
 
 TOWER_RANGE_DEFAULT = 100

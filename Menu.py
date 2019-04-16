@@ -18,6 +18,10 @@ class Menu(Rectangle):
         self.add_button(button_type=ExitButton)
         self.tower_num = 0
         self.curr_tow = 0
+        self.customers_money = config.CUSTOMER_MONEY
+        self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, (config.RED))
+        self.customer_status_pos = self.customer_status.get_rect(center=(self.rect.center))
+        self.customer_status_pos.x += 300
         self.dist_tow_but = 20
         self.towers_data = []
         self.load_data()
@@ -30,8 +34,15 @@ class Menu(Rectangle):
 
             self.curr_tow = i
 
+    def get_status(self):
+        return self.customer_status
+
     def get_items(self):
         return self.items
+
+    def update(self):
+        self.customers_money = config.GAME.customer.money
+        self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, config.RED)
 
     def add_button(self, button_type=None, button=None):
         """
@@ -64,6 +75,7 @@ class Menu(Rectangle):
     def draw(self, surface):
         surface.fill(self.b_color, self.rect)
         self.items.draw(surface)
+        surface.blit(self.customer_status, self.customer_status_pos)
 
     def load_data(self):
         path = os.path.join('assets', config.TOWER_FOLDER, TOWERS_FILE)

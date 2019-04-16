@@ -1,4 +1,5 @@
 from Enemy import Enemy
+import config
 import pygame
 
 
@@ -12,15 +13,25 @@ class EnemyController(object):
         self.n_wave = 1
         self.wave_len = 5
         self.num_enemies = 0
-        pygame.time.set_timer(1, 200)
+        self.finished = True
 
     def get_enemies(self):
         return self.enemies.sprites()
+
+    def reset(self):
+        pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, config.ENEMY_SPAWN_DELAY)
+        self.num_enemies = 0
+        self.finished = False
+
+    def set_wave_len(self, wave_len):
+        self.wave_len = wave_len
 
     def get_group(self):
         return self.enemies
 
     def update(self, bounds):
+        if not self.enemies:
+            self.finished = True
         self.enemies.update(bounds)
         for enemy in self.enemies.sprites():
             cur = enemy.get_current_waypoint()
@@ -38,6 +49,7 @@ class EnemyController(object):
         if self.wave_len == self.num_enemies:
             return True
         else:
+            self.finished = False
             self.num_enemies += 1
             new_enemy = Enemy(self.start, num_waypoints=len(self.waypoints))
             new_enemy.set_destination(self.waypoints[0])

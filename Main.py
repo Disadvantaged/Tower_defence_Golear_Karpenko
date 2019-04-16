@@ -1,9 +1,11 @@
 import pygame
 from Game import Game
+import config
 
 pygame.init()
 
 g_game = Game()
+config.GAME = g_game
 
 
 def main():

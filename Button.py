@@ -31,7 +31,9 @@ class NewWaveButton(Button):
         super().__init__(position, 'nextWave.png')
 
     def action(self, pos):
-        print('new wave has started')
+        if config.GAME.enemies.finished:
+            config.GAME.start_game()
+            config.GAME.enemies.reset()
 
 
 class PlayButton(Button):
@@ -39,7 +41,6 @@ class PlayButton(Button):
         super().__init__(position, 'play.png')
 
     def action(self, pos):
-        if Main.g_game.game_started:
-            print('the game has already started')
-        else:
-            Main.g_game.start_game()
+        if not config.GAME.game_started:
+            config.GAME.start_game()
+            config.GAME.enemies.reset()
