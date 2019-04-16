@@ -9,6 +9,7 @@ class Customer:
         self.money = config.CUSTOMER_MONEY
 
     def attach(self, item: Tower):
+        print('attached')
         if self.money >= item.price:
             self.item = item
 
@@ -16,6 +17,7 @@ class Customer:
         return self.money >= self.item.get_price()
 
     def detach(self):
+        print('detached')
         item = self.item
         self.item = None
         return item
@@ -27,3 +29,9 @@ class Customer:
         item = self.detach()
         self.money -= item.get_price()
         return item
+
+    def draw(self, screen):
+        if self.item is not None:
+            pos = pygame.mouse.get_pos()
+            pos = (pos[0] - self.item.get_width() // 2, pos[1] - self.item.get_height() // 2)
+            screen.blit(self.item.get_image(), pos)

@@ -103,6 +103,7 @@ class Game(object):
         self.all_sprites.draw(self.field)
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
+        self.customer.draw(self.screen)
 
     def main_loop(self):
         while True:

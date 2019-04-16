@@ -53,7 +53,9 @@ class World(object):
         self.transform_waypoints()
 
     def transform_waypoints(self):
-        for way_point in self.waypoints:
+        waypoints = self.waypoints
+        self.waypoints = []
+        for way_point in waypoints:
             self.waypoints.append((way_point[0] * self.tile_size[0], way_point[1] * self.tile_size[1]))
 
     def load_layout(self, world_name):
@@ -106,9 +108,12 @@ class World(object):
         return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // self.tile_size[1]
 
     def place_tower(self, tower, pos):
-        tower.add(*self.layout[pos[1]][pos[0]].groups())
+        tower = tower.copy(self.layout[pos[1]][pos[0]].get_position())
+        tower.add(*(self.layout[pos[1]][pos[0]].groups()))
         self.layout[pos[1]][pos[0]].kill()
         self.layout[pos[1]][pos[0]] = tower
+        tower.set_size(self.tile_size)
+
 
     def next_cur_pos(self, layout, cur_pos, visited_cells):
         can_top = cur_pos[1] > 0
