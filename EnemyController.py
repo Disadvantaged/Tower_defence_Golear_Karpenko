@@ -1,6 +1,7 @@
-from Enemy import Enemy
-import config
 import pygame
+
+import config
+from Enemy import Enemy
 
 
 class EnemyController(object):
@@ -39,11 +40,22 @@ class EnemyController(object):
                 enemy.visited = False
                 if cur + 1 == len(self.waypoints):
                     enemy.kill()
+                    self.num_enemies -= 1
+                    if not self.enemies:
+                        self.n_wave += 1
+                    config.GAME.customer.money -= config.ENEMY_COST
+                    if config.GAME.customer.money <= 0:
+                        config.GAME.set_lost()
                 else:
                     enemy.update_current_waypoint(self.waypoints[cur], self.waypoints[cur + 1])
 
     def draw(self, surface):
         self.enemies.draw(surface)
+
+    def clear(self):
+        self.enemies.empty()
+        self.num_enemies = 0
+        self.finished = True
 
     def spawn(self):
         if self.wave_len == self.num_enemies:

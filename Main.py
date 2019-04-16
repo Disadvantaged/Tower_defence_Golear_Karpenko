@@ -1,6 +1,7 @@
 import pygame
-from Game import Game
+
 import config
+from Game import Game
 
 pygame.init()
 
@@ -9,7 +10,6 @@ config.GAME = g_game
 
 
 def main():
-    g_game.new()
     g_game.main_loop()
 
 

@@ -42,7 +42,8 @@ class Menu(Rectangle):
 
     def update(self):
         self.customers_money = config.GAME.customer.money
-        self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, config.RED)
+        if config.GAME.game_started:
+            self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, config.RED)
         for button in self.items:
             if isinstance(button, Tower):
                 if self.customers_money < button.get_price():
@@ -87,3 +88,8 @@ class Menu(Rectangle):
             self.tower_num = int(f.readline()[:1])
             for line in f:
                 self.towers_data.append(line.strip())
+
+    def set_lost(self):
+        self.customer_status = config.FONT.render("You lost. Pressed Start to start new game", 1, (config.RED))
+        for button in self.items:
+            button.deactivate()

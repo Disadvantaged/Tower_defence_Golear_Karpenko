@@ -1,4 +1,5 @@
 import pygame
+
 import config
 from Tower import Tower
 
@@ -31,6 +32,8 @@ class Customer:
     def buy_tower(self):
         item = self.detach()
         self.money -= item.get_price()
+        item.set_on_field()
+        item.deactivate()
         return item
 
     def draw(self, screen):
@@ -38,3 +41,6 @@ class Customer:
             pos = pygame.mouse.get_pos()
             pos = (pos[0] - self.item.get_width() // 2, pos[1] - self.item.get_height() // 2)
             screen.blit(self.item.get_image(), pos)
+
+    def reset(self):
+        self.money = config.CUSTOMER_MONEY

@@ -9,7 +9,8 @@ class Tower(Rectangle):
         if image is not None:
             image = os.path.join('towers', image)
         super().__init__(position, config.TILESIZE_DEFAULT, image)
-        self.is_activated = False
+        self.is_on_field = False  # Tower can shoot
+        self.is_activated = True  # Tower is in menu and pressable
         self.price = price
         self.range = config.TOWER_RANGE_DEFAULT
 
@@ -25,12 +26,16 @@ class Tower(Rectangle):
     def set_range(self, ran):
         self.range = ran
 
+    def set_on_field(self):
+        self.is_on_field = True
+
     def activate(self):
-        self.is_activated = True
+        self.is_activated = False
         print('tower activated')
 
     def deactivate(self):
         self.is_activated = False
 
     def action(self, pos):
-        print('tower pressed')
+        if self.is_activated:
+            config.GAME.customer.attach(self)
