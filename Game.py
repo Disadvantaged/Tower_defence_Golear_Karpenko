@@ -85,7 +85,8 @@ class Game(object):
             for cell in self.cells:
                 if cell.get_rect().collidepoint(pos) and cell.can_build and self.customer.enough_money():
                     tower = self.customer.buy_tower()
-                    self.world.place_tower(cell.get_rect())
+                    self.world.place_tower(tower, self.world.get_cell_position(rect=cell.get_rect()))
+                    tower.activate()
                     print('bought')
         elif self.menu.get_rect().collidepoint(pos):
             for item in self.menu.get_items():

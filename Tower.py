@@ -21,6 +21,7 @@ class Tower(Rectangle):
 
     def activate(self):
         self.is_activated = True
+        print('tower activated')
 
     def deactivate(self):
         self.is_activated = False

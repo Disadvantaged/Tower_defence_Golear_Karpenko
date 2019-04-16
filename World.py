@@ -49,7 +49,7 @@ class World(object):
         self.load_layout(world_name)
         self.tile_size = config.FIELD_WIDTH // self.width, config.FIELD_HEIGHT // self.height
         self.transform_layout()
-        self.order_waypoints(self.tile_types, self.waypoints)
+        self.waypoints = self.order_waypoints(self.tile_types, self.waypoints)
         self.transform_waypoints()
 
     def transform_waypoints(self):
@@ -97,6 +97,18 @@ class World(object):
             visited_cells.append(cur_pos)
             cur_pos = next_cell
         return ordered_waypoints
+
+    def get_cell_position(self, rect=None):
+        """
+        :param rect: rect of a cell
+        :return: position in the list
+        """
+        return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // self.tile_size[1]
+
+    def place_tower(self, tower, pos):
+        tower.add(*self.layout[pos[1]][pos[0]].groups())
+        self.layout[pos[1]][pos[0]].kill()
+        self.layout[pos[1]][pos[0]] = tower
 
     def next_cur_pos(self, layout, cur_pos, visited_cells):
         can_top = cur_pos[1] > 0
