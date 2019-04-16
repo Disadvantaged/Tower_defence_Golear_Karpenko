@@ -49,6 +49,10 @@ class Tower(Rectangle):
                     if not self.wait:
                         self.wait = True
                         enemy.attacked(self.damage)
+                        if not enemy.alive():
+                            config.GAME.enemies.num_enemies -= 1
+                            if config.GAME.enemies.check_for_win():
+                                config.GAME.win()
 
     def set_range(self, ran):
         self.range = ran

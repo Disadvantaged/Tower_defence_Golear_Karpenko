@@ -38,9 +38,12 @@ class Game(object):
 
     def start_game(self):
         self.customer.reset()
+
+        self.enemies.clear()
         self.enemies.reset()
         self.world.clear()
         self.menu.start_game()
+
         self.game_started = True
 
     def win(self):

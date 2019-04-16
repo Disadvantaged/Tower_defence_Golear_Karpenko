@@ -11,7 +11,7 @@ class EnemyController(object):
         self.waypoints = game.world.get_waypoints()
         self.start = game.world.get_starting_position()
         self.last = game.world.get_last_position()
-        self.n_wave = 1
+        self.n_wave = 0
         self.max_wave = 3
         self.wave_len = 5
         self.num_enemies = 0
@@ -23,6 +23,7 @@ class EnemyController(object):
     def reset(self):
         pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, config.ENEMY_SPAWN_DELAY)
         self.num_enemies = 0
+        self.n_wave += 1
         self.finished = False
 
     def set_wave_len(self, wave_len):
@@ -35,9 +36,6 @@ class EnemyController(object):
         if not self.enemies and not self.finished:
             print('q', self.n_wave)
             self.finished = True
-            self.n_wave += 1
-            if self.n_wave == self.max_wave + 1:
-                config.GAME.win()
         else:
             self.enemies.update(bounds)
             for enemy in self.enemies.sprites():
@@ -46,6 +44,8 @@ class EnemyController(object):
                     enemy.visited = False
                     if cur + 1 == len(self.waypoints):
                         enemy.kill()
+                        if self.check_for_win():
+                            config.GAME.win()
                         self.num_enemies -= 1
                         config.GAME.customer.money -= config.ENEMY_COST
                         if config.GAME.customer.money <= 0:
@@ -53,12 +53,17 @@ class EnemyController(object):
                     else:
                         enemy.update_current_waypoint(self.waypoints[cur], self.waypoints[cur + 1])
 
+    def check_for_win(self):
+        return self.num_enemies == 0 and self.n_wave == self.max_wave
+
+
     def draw(self, surface):
         self.enemies.draw(surface)
 
     def clear(self):
         self.enemies.empty()
         self.num_enemies = 0
+        self.n_wave = 0
         self.finished = True
 
     def spawn(self):
