@@ -93,3 +93,7 @@ class Menu(Rectangle):
         self.customer_status = config.FONT.render("You lost. Pressed Start to start new game", 1, (config.RED))
         for button in self.items:
             button.deactivate()
+
+    def start_game(self):
+        for button in self.items:
+            button.activate()

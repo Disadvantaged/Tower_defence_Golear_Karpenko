@@ -34,11 +34,9 @@ class Enemy(Rectangle.Rectangle):
         if self.current_waypoint == self.num_waypoints:
             self.kill()
         else:
-            print(cur_waypoint, next_waypoint)
             self.destination = next_waypoint
             self.heading = next_waypoint[0] - cur_waypoint[0], next_waypoint[1] - cur_waypoint[1]
             self.heading = normalize(self.heading)
-            print(self.heading)
 
     def activate(self):
         self.is_active = True
@@ -58,7 +56,6 @@ class Enemy(Rectangle.Rectangle):
     def set_heading(self, heading):
         self.heading = heading[0] - self.position[0], heading[1] - self.position[1]
         self.heading = normalize(self.heading)
-        print(self.heading)
 
     def get_life(self):
         return self.life

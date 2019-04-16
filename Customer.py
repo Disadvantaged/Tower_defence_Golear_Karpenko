@@ -32,8 +32,6 @@ class Customer:
     def buy_tower(self):
         item = self.detach()
         self.money -= item.get_price()
-        item.set_on_field()
-        item.deactivate()
         return item
 
     def draw(self, screen):

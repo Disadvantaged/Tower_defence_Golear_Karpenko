@@ -38,6 +38,9 @@ class Game(object):
 
     def start_game(self):
         self.customer.reset()
+        self.enemies.reset()
+        self.world.clear()
+        self.menu.start_game()
         self.game_started = True
 
     def load(self):
@@ -86,6 +89,7 @@ class Game(object):
     def update(self):
         self.enemies.update(self.world.get_rect())
         self.menu.update()
+        self.world.update()
 
     def set_lost(self):
         self.enemies.clear()

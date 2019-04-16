@@ -19,6 +19,7 @@ class World(object):
         self.cell_generator[3] = Fabrics.RoadFabric
         self.rect = None
         self.waypoints = []
+        self.towers = []
         self.load_data(world_name)
         self.last = self.waypoints[-1]
 
@@ -51,6 +52,21 @@ class World(object):
         self.transform_layout()
         self.waypoints = self.order_waypoints(self.tile_types, self.waypoints)
         self.transform_waypoints()
+
+    def update(self):
+        for tower in self.towers:
+            tower.update()
+
+    def clear(self):
+        for i, tower in enumerate(self.towers):
+            row, col = tower.get_position()
+            row = row // self.tile_size[0]
+            col = col // self.tile_size[1]
+            tile_type = self.tile_types[col][row]
+            self.layout[col][row] = self.cell_generator[tile_type].new_cell(tower.get_position(), self.tile_size)
+            self.layout[col][row].add(*tower.groups())
+            tower.kill()
+        self.towers = []
 
     def transform_waypoints(self):
         waypoints = self.waypoints
@@ -109,9 +125,14 @@ class World(object):
 
     def place_tower(self, tower, pos):
         tower = tower.copy(self.layout[pos[1]][pos[0]].get_position())
+        tower.can_build = False
+        tower.set_position(self.layout[pos[1]][pos[0]].get_position())
+        tower.set_on_field()
+        tower.deactivate()
         tower.add(*(self.layout[pos[1]][pos[0]].groups()))
         self.layout[pos[1]][pos[0]].kill()
         self.layout[pos[1]][pos[0]] = tower
+        self.towers.append(tower)
         tower.set_size(self.tile_size)
 
 

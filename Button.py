@@ -38,11 +38,11 @@ class NewWaveButton(Button):
         super().__init__(position, 'nextWave.png')
 
     def action(self, pos):
-
         if self.is_activated and config.GAME.enemies.finished:
             if config.GAME.game_started:
                 config.GAME.customer.add_money(config.NEW_WAVE_BONUS)
-            config.GAME.start_game()
+            else:
+                config.GAME.start_game()
             config.GAME.enemies.reset()
 
 

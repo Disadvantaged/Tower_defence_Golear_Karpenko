@@ -7,3 +7,4 @@ class Road(Rectangle):
     """
     def __init__(self, position, size):
         super().__init__(position, size, 'road.png')
+        self.can_build = True
