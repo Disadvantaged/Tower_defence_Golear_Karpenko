@@ -1,3 +1,4 @@
+import math
 import os
 
 import config
@@ -11,9 +12,13 @@ class Tower(Rectangle):
                 image = os.path.join('towers', image)
         super().__init__(position, config.TILESIZE_DEFAULT, image)
         self.can_build = False
+        self.wait = False
         self.is_on_field = False  # Tower can shoot
         self.is_activated = False  # Tower is in menu and pressable
         self.price = price
+        self.waiting_time = 0
+        self.damage = config.TOWER_DAMAGE_DEFAULT
+        self.delay = config.TOWER_DELAY_DEFAULT
         self.range = config.TOWER_RANGE_DEFAULT
 
     def get_price(self):
@@ -34,7 +39,16 @@ class Tower(Rectangle):
 
     def update(self, *args):
         if self.is_on_field:
-            pass
+            if self.wait:
+                self.waiting_time += config.GAME.clock.tick()
+            if self.waiting_time >= self.delay:
+                self.wait = False
+                self.waiting_time = 0
+            for enemy in config.GAME.enemies.get_enemies():
+                if self.compute_distance(enemy.get_position()) < self.range:
+                    if not self.wait:
+                        self.wait = True
+                        enemy.attacked(self.damage)
 
     def set_range(self, ran):
         self.range = ran
@@ -52,3 +66,6 @@ class Tower(Rectangle):
     def action(self, pos):
         if self.is_activated:
             config.GAME.customer.attach(self)
+
+    def compute_distance(self, pos):
+        return math.sqrt((pos[0] - self.position[0]) ** 2 + (pos[1] - self.position[1]) ** 2)

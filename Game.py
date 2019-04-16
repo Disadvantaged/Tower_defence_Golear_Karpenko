@@ -43,6 +43,10 @@ class Game(object):
         self.menu.start_game()
         self.game_started = True
 
+    def win(self):
+        self.game_started = False
+        self.menu.win()
+
     def load(self):
         """
         Loads data from assets.

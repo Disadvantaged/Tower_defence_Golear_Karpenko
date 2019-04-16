@@ -44,6 +44,11 @@ class Enemy(Rectangle.Rectangle):
     def is_on_waypoint(self):
         return self.position == self.heading
 
+    def attacked(self, damage):
+        self.life -= damage
+        if self.life <= 0:
+            self.kill()
+
     def set_speed(self, speed):
         self.speed = speed
 
