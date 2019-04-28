@@ -31,3 +31,6 @@ class Customer:
         item = self.detach()
         self.money -= item.get_price()
         return item
+
+    def reset(self):
+        self.money = config.CUSTOMER_MONEY

@@ -38,7 +38,18 @@ class Game(object):
         self.all_sprites.add(self.enemies.get_enemies())
 
     def start_game(self):
+        self.customer.reset()
+
+        self.enemies.clear()
+        self.enemies.reset()
+        self.world.clear()
+        self.menu.start_game()
+
         self.game_started = True
+
+    def win(self):
+        self.game_started = False
+        self.menu.win()
 
     def load(self):
         """
@@ -49,11 +60,6 @@ class Game(object):
             self.tiles.add(*row)
             self.all_sprites.add(*row)
             self.cells.extend(row)
-
-    def new(self):
-        """
-        Adds all the added sprites to the screen and initializes the game.
-        """
 
     def handle_events(self):
         """
@@ -82,18 +88,22 @@ class Game(object):
                 if cell.get_rect().collidepoint(pos) and cell.can_build and self.customer.enough_money():
                     tower = self.customer.buy_tower()
                     self.world.place_tower(tower, self.world.get_cell_position(rect=cell.get_rect()))
-                    tower.activate()
                     print('bought')
         elif self.menu.get_rect().collidepoint(pos):
             for item in self.menu.get_items():
                 if item.get_rect().collidepoint(pos):
-                    if isinstance(item, Tower):
-                        self.customer.attach(item)
                     item.action(pos)
 
     def update(self):
         self.enemies.update(self.world.get_rect())
         self.menu.update()
+        self.world.update()
+
+    def set_lost(self):
+        self.enemies.clear()
+        self.menu.set_lost()
+        self.customer.money = 0
+        self.game_started = False
 
     def draw(self):
         self.all_sprites.draw(self.field)
