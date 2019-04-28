@@ -1,7 +1,7 @@
 import os
 
 import config
-from Rectangle import Rectangle
+from BaseClasses.rectangle import Rectangle
 
 
 class Tower(Rectangle):
@@ -33,4 +33,4 @@ class Tower(Rectangle):
         self.is_activated = False
 
     def action(self, pos):
-        print('tower pressed')
+        pass

@@ -1,7 +1,7 @@
 import collections
 import os
 
-import Fabrics
+from WorldComponents import fabrics
 import config
 
 
@@ -12,11 +12,11 @@ class World(object):
         self.layout = []
         self.tile_types = []
         self.start = self.last = (0, 0)
-        self.cell_generator = collections.defaultdict(Fabrics.CellFabric)
-        self.cell_generator[0] = Fabrics.GrassFabric
-        self.cell_generator[1] = Fabrics.BlockFabric
-        self.cell_generator[2] = Fabrics.RoadFabric
-        self.cell_generator[3] = Fabrics.RoadFabric
+        self.cell_generator = collections.defaultdict(fabrics.CellFabric)
+        self.cell_generator[0] = fabrics.GrassFabric
+        self.cell_generator[1] = fabrics.BlockFabric
+        self.cell_generator[2] = fabrics.RoadFabric
+        self.cell_generator[3] = fabrics.RoadFabric
         self.rect = None
         self.waypoints = []
         self.load_data(world_name)
@@ -32,6 +32,9 @@ class World(object):
         return self.last[0] * self.tile_size[0], self.last[1] * self.tile_size[1]
 
     def get_starting_position(self):
+        """
+        :return: start on screen coordinates
+        """
         return self.start[0] * self.tile_size[0], self.start[1] * self.tile_size[1]
 
     def set_rect(self, rect):
@@ -53,12 +56,21 @@ class World(object):
         self.transform_waypoints()
 
     def transform_waypoints(self):
+        """
+        Transforms waypoints from layout coordinates to screen coordinates.
+        :return: None
+        """
         waypoints = self.waypoints
         self.waypoints = []
         for way_point in waypoints:
             self.waypoints.append((way_point[0] * self.tile_size[0], way_point[1] * self.tile_size[1]))
 
     def load_layout(self, world_name):
+        """
+        Reads file and gets the layout from it. Raises exception if file is not formatted well.
+        :param world_name: filename of world layout in world folder.
+        :return: None
+        """
         path = os.path.join('assets', config.WORLD_FOLDER, world_name)
         with open(path, 'r') as f:
             self.width, self.height, start_x, start_y = [int(x) for x in f.readline().split()]
@@ -74,6 +86,10 @@ class World(object):
                                    str(len(self.tile_types)))
 
     def transform_layout(self):
+        """
+        Creates layout and transforms it from tile_types to already created cells.
+        :return: None
+        """
         for row in range(len(self.tile_types)):
             cell_row = []
 
@@ -86,6 +102,11 @@ class World(object):
             self.layout.append(cell_row)
 
     def order_waypoints(self, layout, waypoints):
+        """
+        Orders cells starting from start. Ends when all the waypoints are added to ordered_waypoints.
+        :param waypoints: list of waypoints that needs to be ordered.
+        :return: ordered list of waypoints
+        """
         cur_pos = self.start
         visited_cells = []
         ordered_waypoints = []
@@ -108,14 +129,23 @@ class World(object):
         return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // self.tile_size[1]
 
     def place_tower(self, tower, pos):
+        """
+        Changes cell on the layout.
+        Previous cell is being destroyed and its groups are added to the tower.
+        :param tower: Tower from the menu. Needs to be copied.
+        :return: None
+        """
         tower = tower.copy(self.layout[pos[1]][pos[0]].get_position())
         tower.add(*(self.layout[pos[1]][pos[0]].groups()))
         self.layout[pos[1]][pos[0]].kill()
         self.layout[pos[1]][pos[0]] = tower
         tower.set_size(self.tile_size)
 
-
     def next_cur_pos(self, layout, cur_pos, visited_cells):
+        """
+        Finds next position for path.
+        :return: next position
+        """
         can_top = cur_pos[1] > 0
         can_bot = cur_pos[1] < self.height - 1
         can_left = cur_pos[0] > 0
@@ -139,6 +169,14 @@ class World(object):
         return None
 
     def check_middle_path(self, pos, layout):
+        """
+        Checks if given cell is in the middle of path.
+        For example:
+        ---
+        -x-
+        ---
+        :return: true if cell is in the middle, false otherwise.
+        """
         path_types = [2, 3]
         if layout[pos[1]][pos[0]] not in path_types:
             return False

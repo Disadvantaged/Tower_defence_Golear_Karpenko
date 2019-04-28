@@ -29,11 +29,19 @@ class Rectangle(pygame.sprite.Sprite):
         elif isinstance(image, pygame.Surface):
             self.image = image.copy()
 
-    def get_image(self):
+    def get_image(self) -> pygame.Surface:
         return self.image
 
-    def set_image(self, image):
+    def kill(self) -> None:
         """
+        wrap for sprite.
+        :return: None
+        """
+        super().kill()
+
+    def set_image(self, image) -> None:
+        """
+        Checks for image type and sets it properly.
         :param image: if type == str then appends assets and loads image. else copies the image
         :return: None
         """
@@ -45,12 +53,13 @@ class Rectangle(pygame.sprite.Sprite):
             self.image = image.copy()
         self.image = pygame.transform.scale(self.image, self.size)
 
-    def move(self, x, y):
+    def move(self, x, y) -> None:
         self.position = (self.position[0] + x, self.position[1] + y)
         self.rect.move_ip(x, y)
 
     def copy(self, position=None):
         """
+        Should be overwritten for child classes.
         :param position: the position for new rectangle. None if position as in self
         :return: new Rectangle
         """
@@ -74,6 +83,9 @@ class Rectangle(pygame.sprite.Sprite):
         self._rescale()
 
     def _rescale(self):
+        """
+        Transforms image because its asset larger than size.
+        """
         self.image = pygame.transform.scale(self.image, self.size)
 
     def get_position(self):

@@ -1,4 +1,4 @@
-from Enemy import Enemy
+from Entity.enemy import Enemy
 import config
 import pygame
 

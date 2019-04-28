@@ -1,6 +1,5 @@
-import pygame
 import config
-from Tower import Tower
+from Entity.tower import Tower
 
 
 class Customer:
@@ -32,9 +31,3 @@ class Customer:
         item = self.detach()
         self.money -= item.get_price()
         return item
-
-    def draw(self, screen):
-        if self.item is not None:
-            pos = pygame.mouse.get_pos()
-            pos = (pos[0] - self.item.get_width() // 2, pos[1] - self.item.get_height() // 2)
-            screen.blit(self.item.get_image(), pos)

@@ -1,6 +1,6 @@
-from Button import *
-from Rectangle import Rectangle
-from TowerBuilder import *
+from Entity.button import *
+from BaseClasses.rectangle import Rectangle
+from EntityController.tower_builder import *
 from config import *
 
 
@@ -30,7 +30,7 @@ class Menu(Rectangle):
             self.tower_builder.clear()
             for arg in self.towers_data[i].split(' '):
                 self.tower_builder.set_property(*arg.split('='))
-            self.add_button(button=self.tower_builder.new_TowerButton())
+            self.add_button(button=self.tower_builder.new_tower_button())
 
             self.curr_tow = i
 

@@ -1,5 +1,5 @@
 import pygame
-from Game import Game
+from BaseClasses.game import Game
 import config
 
 pygame.init()
