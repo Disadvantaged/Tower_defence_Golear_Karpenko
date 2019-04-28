@@ -1,8 +1,7 @@
-import math
 import os
-
+import math
 import config
-from Rectangle import Rectangle
+from BaseClasses.rectangle import Rectangle
 
 
 class Tower(Rectangle):

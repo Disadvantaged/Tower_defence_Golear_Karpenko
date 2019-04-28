@@ -1,7 +1,6 @@
-import pygame
-
+from Entity.enemy import Enemy
 import config
-from Enemy import Enemy
+import pygame
 
 
 class EnemyController(object):

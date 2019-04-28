@@ -1,7 +1,6 @@
 import pygame
-
+from BaseClasses.game import Game
 import config
-from Game import Game
 
 pygame.init()
 

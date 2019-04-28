@@ -3,7 +3,7 @@ import os
 import pygame
 
 import config
-from Rectangle import Rectangle
+from BaseClasses.rectangle import Rectangle
 
 
 class Button(Rectangle):

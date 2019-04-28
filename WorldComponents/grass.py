@@ -1,4 +1,4 @@
-from Rectangle import Rectangle
+from BaseClasses.rectangle import Rectangle
 
 
 class Grass(Rectangle):

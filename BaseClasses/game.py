@@ -1,10 +1,11 @@
 import pygame
 
 import config
-from Customer import Customer
-from EnemyController import EnemyController
-from Menu import Menu
-from World import World
+from EntityController.enemy_controller import EnemyController
+from BaseClasses.menu import Menu
+from Entity.tower import Tower
+from EntityController.customer import Customer
+from BaseClasses.world import World
 
 
 class Game(object):
@@ -108,7 +109,10 @@ class Game(object):
         self.all_sprites.draw(self.field)
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
-        self.customer.draw(self.screen)
+        if self.customer.item_attached():
+                pos = pygame.mouse.get_pos()
+                pos = (pos[0] - self.customer.item.get_width() // 2, pos[1] - self.customer.item.get_height() // 2)
+                self.screen.blit(self.customer.item.get_image(), pos)
 
     def main_loop(self):
         while True:

@@ -1,11 +1,11 @@
-from Tower import Tower
+from Entity.tower import Tower
 
 
 class TowerBuilder(object):
     def __init__(self):
         self.button = Tower(image='tower1.png')
 
-    def new_TowerButton(self):
+    def new_tower_button(self):
         return self.button
 
     def clear(self):
