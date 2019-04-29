@@ -1,0 +1,8 @@
+language: python
+notifications:
+  email:
+    recipients:
+      - dgolear99@gmail.com
+      - karpenko.mn@phystech.edu
+    on_success: never # default: change
+    on_failure: always # default: always
