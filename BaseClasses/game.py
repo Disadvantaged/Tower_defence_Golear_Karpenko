@@ -1,11 +1,10 @@
 import pygame
 
 import config
-from EntityController.enemy_controller import EnemyController
 from BaseClasses.menu import Menu
-from Entity.tower import Tower
-from EntityController.customer import Customer
 from BaseClasses.world import World
+from EntityController.customer import Customer
+from EntityController.enemy_controller import EnemyController
 
 
 class Game(object):
@@ -80,14 +79,18 @@ class Game(object):
 
     def check_mouse_pressed(self, pos):
         """
-        If player pressed left mouse button, checks if he pressed on a cell or not.
+        If player pressed left mouse button, checks if he pressed on a cell.
         :param pos: position of mouse click.
         """
-        if self.world.get_rect().collidepoint(pos) and self.customer.item_attached():
+        if (self.world.get_rect().collidepoint(pos)
+                and self.customer.item_attached()):
             for cell in self.cells:
-                if cell.get_rect().collidepoint(pos) and cell.can_build and self.customer.enough_money():
+                if (cell.get_rect().collidepoint(pos)
+                        and cell.can_build
+                        and self.customer.enough_money()):
                     tower = self.customer.buy_tower()
-                    self.world.place_tower(tower, self.world.get_cell_position(rect=cell.get_rect()))
+                    self.world.place_tower(tower, self.world.get_cell_position(
+                        rect=cell.get_rect()))
                     print('bought')
         elif self.menu.get_rect().collidepoint(pos):
             for item in self.menu.get_items():
@@ -110,9 +113,10 @@ class Game(object):
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
         if self.customer.item_attached():
-                pos = pygame.mouse.get_pos()
-                pos = (pos[0] - self.customer.item.get_width() // 2, pos[1] - self.customer.item.get_height() // 2)
-                self.screen.blit(self.customer.item.get_image(), pos)
+            pos = pygame.mouse.get_pos()
+            pos = (pos[0] - self.customer.item.get_width() // 2,
+                   pos[1] - self.customer.item.get_height() // 2)
+            self.screen.blit(self.customer.item.get_image(), pos)
 
     def main_loop(self):
         while True:
