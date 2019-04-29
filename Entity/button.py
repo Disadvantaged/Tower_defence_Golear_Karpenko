@@ -10,7 +10,8 @@ class Button(Rectangle):
     def __init__(self, position=(0, 0), image=None):
         if image is not None:
             image = os.path.join(config.BUTTON_PATH, image)
-        super().__init__(position, (config.BUTTON_WIDTH, config.BUTTON_HEIGHT), image)
+        super().__init__(position, (config.BUTTON_WIDTH,
+                                    config.BUTTON_HEIGHT), image)
         self.is_activated = True
 
     def activate(self):

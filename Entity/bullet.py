@@ -3,7 +3,8 @@ import config
 
 
 class Bullet(Rectangle):
-    def __init__(self, position, size=config.BULLET_SIZE_DEFAULT, image=config.BULLET_IMAGE_DEFAULT):
+    def __init__(self, position, size=config.BULLET_SIZE_DEFAULT,
+                 image=config.BULLET_IMAGE_DEFAULT):
         super().__init__(position, size, image)
         self.speed = config.BULLET_SPEED_DEFAULT
 

@@ -30,13 +30,15 @@ class World(object):
         return self.waypoints
 
     def get_last_position(self):
-        return self.last[0] * self.tile_size[0], self.last[1] * self.tile_size[1]
+        return self.last[0] * self.tile_size[0], \
+               self.last[1] * self.tile_size[1]
 
     def get_starting_position(self):
         """
         :return: start on screen coordinates
         """
-        return self.start[0] * self.tile_size[0], self.start[1] * self.tile_size[1]
+        return self.start[0] * self.tile_size[0], \
+               self.start[1] * self.tile_size[1]
 
     def set_rect(self, rect):
         self.rect = rect
@@ -51,7 +53,8 @@ class World(object):
         """
         self.empty_data()
         self.load_layout(world_name)
-        self.tile_size = config.FIELD_WIDTH // self.width, config.FIELD_HEIGHT // self.height
+        self.tile_size = config.FIELD_WIDTH // self.width, \
+                         config.FIELD_HEIGHT // self.height
         self.transform_layout()
         self.waypoints = self.order_waypoints(self.tile_types, self.waypoints)
         self.transform_waypoints()
@@ -61,12 +64,13 @@ class World(object):
             tower.update()
 
     def clear(self):
-        for i, tower in enumerate(self.towers):
+        for tower in self.towers:
             row, col = tower.get_position()
             row = row // self.tile_size[0]
             col = col // self.tile_size[1]
             tile_type = self.tile_types[col][row]
-            self.layout[col][row] = self.cell_generator[tile_type].new_cell(tower.get_position(), self.tile_size)
+            self.layout[col][row] = self.cell_generator[tile_type].new_cell(
+                tower.get_position(), self.tile_size)
             self.layout[col][row].add(*tower.groups())
             tower.kill()
         self.towers = []
@@ -79,47 +83,54 @@ class World(object):
         waypoints = self.waypoints
         self.waypoints = []
         for way_point in waypoints:
-            self.waypoints.append((way_point[0] * self.tile_size[0], way_point[1] * self.tile_size[1]))
+            self.waypoints.append((way_point[0] * self.tile_size[0],
+                                   way_point[1] * self.tile_size[1]))
 
     def load_layout(self, world_name):
         """
-        Reads file and gets the layout from it. Raises exception if file is not formatted well.
+        Reads file and gets the layout from it.
+        Raises exception if file is not formatted well.
         :param world_name: filename of world layout in world folder.
         :return: None
         """
         path = os.path.join('assets', config.WORLD_FOLDER, world_name)
-        with open(path, 'r') as f:
-            self.width, self.height, start_x, start_y = [int(x) for x in f.readline().split()]
+        with open(path, 'r') as file:
+            self.width, self.height, start_x, start_y = [int(x) for x in
+                                                         file.readline().split()]
             self.start = (start_x, start_y)
-            for i in range(self.height):
-                s = f.readline().strip()
-                if len(s) != self.width:
-                    raise RuntimeError('file format is wrong: expected len = ' + str(self.width) + ' but found ' +
-                                       str(len(s)))
-                self.tile_types.append([int(c) for c in s])
+            for _ in range(self.height):
+                string = file.readline().strip()
+                if len(string) != self.width:
+                    raise RuntimeError(
+                        'file format is wrong: expected len = ' + string(
+                            self.width) + ' but found ' +
+                        string(len(string)))
+                self.tile_types.append([int(c) for c in string])
             if len(self.tile_types) != self.height:
-                raise RuntimeError('file format is wrong: expected ' + str(self.height) + ' rows but found ' +
-                                   str(len(self.tile_types)))
+                raise RuntimeError('file format is wrong: expected ' + string(
+                    self.height) + ' rows but found ' +
+                                   string(len(self.tile_types)))
 
     def transform_layout(self):
         """
-        Creates layout and transforms it from tile_types to already created cells.
+        Creates layout and transforms tile_types to already created cells.
         :return: None
         """
         for row in range(len(self.tile_types)):
             cell_row = []
 
             for col in range(len(self.tile_types[row])):
-                x = col * self.tile_size[0]
-                y = row * self.tile_size[1]
+                pos = col * self.tile_size[0], row * self.tile_size[1]
                 if self.tile_types[row][col] == 3:
                     self.waypoints.append((col, row))
-                cell_row.append(self.cell_generator[self.tile_types[row][col]].new_cell((x, y), self.tile_size))
+                cell_row.append(
+                    self.cell_generator[self.tile_types[row][col]].new_cell(
+                        pos, self.tile_size))
             self.layout.append(cell_row)
 
     def order_waypoints(self, layout, waypoints):
         """
-        Orders cells starting from start. Ends when all the waypoints are added to ordered_waypoints.
+        Orders cells starting from start. Ends when all the waypoints are added.
         :param waypoints: list of waypoints that needs to be ordered.
         :return: ordered list of waypoints
         """
@@ -142,7 +153,8 @@ class World(object):
         :param rect: rect of a cell
         :return: position in the list
         """
-        return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // self.tile_size[1]
+        return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // \
+            self.tile_size[1]
 
     def place_tower(self, tower, pos):
         """
@@ -173,19 +185,23 @@ class World(object):
         can_right = cur_pos[0] < self.width - 1
         if can_right:
             new_pos = (cur_pos[0] + 1, cur_pos[1])
-            if self.check_middle_path(new_pos, layout) and new_pos not in visited_cells:
+            if self.check_middle_path(new_pos,
+                                      layout) and new_pos not in visited_cells:
                 return new_pos
         if can_left:
             new_pos = (cur_pos[0] - 1, cur_pos[1])
-            if self.check_middle_path(new_pos, layout) and new_pos not in visited_cells:
+            if self.check_middle_path(new_pos,
+                                      layout) and new_pos not in visited_cells:
                 return new_pos
         if can_bot:
             new_pos = (cur_pos[0], cur_pos[1] + 1)
-            if self.check_middle_path(new_pos, layout) and new_pos not in visited_cells:
+            if self.check_middle_path(new_pos,
+                                      layout) and new_pos not in visited_cells:
                 return new_pos
         if can_top:
             new_pos = (cur_pos[0], cur_pos[1] - 1)
-            if self.check_middle_path(new_pos, layout) and new_pos not in visited_cells:
+            if self.check_middle_path(new_pos,
+                                      layout) and new_pos not in visited_cells:
                 return new_pos
         return None
 

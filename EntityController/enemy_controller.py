@@ -1,6 +1,7 @@
+import pygame
+
 from Entity.enemy import Enemy
 import config
-import pygame
 
 
 class EnemyController(object):
@@ -55,7 +56,6 @@ class EnemyController(object):
     def check_for_win(self):
         return self.num_enemies == 0 and self.n_wave == self.max_wave
 
-
     def draw(self, surface):
         self.enemies.draw(surface)
 
@@ -66,9 +66,7 @@ class EnemyController(object):
         self.finished = True
 
     def spawn(self):
-        if self.wave_len == self.num_enemies:
-            return True
-        else:
+        if self.wave_len != self.num_enemies:
             self.finished = False
             self.num_enemies += 1
             new_enemy = Enemy(self.start, num_waypoints=len(self.waypoints))
@@ -76,3 +74,4 @@ class EnemyController(object):
             new_enemy.activate()
             self.enemies.add(new_enemy)
             return False
+        return True

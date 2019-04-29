@@ -23,7 +23,8 @@ class Rectangle(pygame.sprite.Sprite):
             image = 'empty.png'
         if isinstance(image, str):
             if image not in config.ASSETS:
-                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+                config.ASSETS[image] = pygame.image.load(
+                    os.path.join('assets', config.IMG_FOLDER, image)).convert()
             self.image = config.ASSETS[image]
             self._rescale()
         elif isinstance(image, pygame.Surface):
@@ -42,12 +43,14 @@ class Rectangle(pygame.sprite.Sprite):
     def set_image(self, image) -> None:
         """
         Checks for image type and sets it properly.
-        :param image: if type == str then appends assets and loads image. else copies the image
+        :param image: If type == str then appends assets and loads image.
+                      Else copies the image
         :return: None
         """
         if isinstance(image, str):
             if image not in config.ASSETS:
-                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+                config.ASSETS[image] = pygame.image.load(
+                    os.path.join('assets', config.IMG_FOLDER, image)).convert()
             self.image = config.ASSETS[image]
         else:
             self.image = image.copy()
@@ -60,7 +63,7 @@ class Rectangle(pygame.sprite.Sprite):
     def copy(self, position=None):
         """
         Should be overwritten for child classes.
-        :param position: the position for new rectangle. None if position as in self
+        :param position: the position for new rectangle. None if pos==self.pos
         :return: new Rectangle
         """
         if position is None:
