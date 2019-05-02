@@ -1,8 +1,8 @@
-from BaseClasses.rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 import config
 
 
-class Bullet(Rectangle):
+class Bullet(Sprite):
     def __init__(self, position, size=config.BULLET_SIZE_DEFAULT,
                  image=config.BULLET_IMAGE_DEFAULT):
         super().__init__(position, size, image)

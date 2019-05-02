@@ -1,13 +1,13 @@
 from Entity.button import *
-from BaseClasses.rectangle import Rectangle
+from BaseClasses.sprite import Sprite
+from BaseClasses.rectangle import Rect
 from EntityController.tower_builder import TowerBuilder
+from Entity.tower import Tower
 import config
 
 
-class Menu(Rectangle):
-    def __init__(self, position, width, height, size,
-                 b_color=config.MENU_BG_COLOR):
-        super().__init__(position, size)
+class Menu(Sprite):
+    def __init__(self, position, width, height, b_color=config.MENU_BG_COLOR):
         self.but_pos = (config.MENU_NUM_BUTTON *
                         (config.BUTTON_WIDTH + config.MENU_DIST_BUTTON)) // 2
         self.position = position
@@ -15,7 +15,7 @@ class Menu(Rectangle):
         self.height = height
         self.b_color = b_color
         self.items = pygame.sprite.Group()
-        self.rect = pygame.Rect(position, (width, height))
+        self.rect = Rect(position, (width, height))
         self.add_button(button_type=NewWaveButton)
         self.add_button(button_type=PlayButton)
         self.add_button(button_type=ExitButton)

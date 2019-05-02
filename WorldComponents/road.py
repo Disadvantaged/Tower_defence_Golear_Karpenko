@@ -1,9 +1,10 @@
-from BaseClasses.rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 
 
-class Road(Rectangle):
+class Road(Sprite):
     """
     Road where creeps can go.
     """
     def __init__(self, position, size):
         super().__init__(position, size, 'road.png')
+        self.can_build = False

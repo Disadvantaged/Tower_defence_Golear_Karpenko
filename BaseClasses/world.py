@@ -1,5 +1,6 @@
 import collections
 import os
+import logging
 
 from WorldComponents import fabrics
 import config
@@ -11,7 +12,7 @@ class World(object):
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []
-        self.start = self.last = (0, 0)
+        self.start = self.last = (0, 0)  # world coordinates.
         self.cell_generator = collections.defaultdict(fabrics.CellFabric)
         self.cell_generator[0] = fabrics.GrassFabric
         self.cell_generator[1] = fabrics.BlockFabric
@@ -21,7 +22,6 @@ class World(object):
         self.waypoints = []
         self.towers = []
         self.load_data(world_name)
-        self.last = self.waypoints[-1]
 
     def get_tile_size(self):
         return self.tile_size
@@ -29,16 +29,18 @@ class World(object):
     def get_waypoints(self):
         return self.waypoints
 
-    def get_last_position(self):
-        return self.last[0] * self.tile_size[0], \
-               self.last[1] * self.tile_size[1]
+    def get_last_position(self, screen_coordinates=True):
+        if screen_coordinates:
+            return self.waypoints[0]
+        return self.last
 
-    def get_starting_position(self):
+    def get_starting_position(self, screen_coordinates=True):
         """
         :return: start on screen coordinates
         """
-        return self.start[0] * self.tile_size[0], \
-               self.start[1] * self.tile_size[1]
+        if screen_coordinates:
+            return self.waypoints[0]
+        return self.start
 
     def set_rect(self, rect):
         self.rect = rect
@@ -95,21 +97,22 @@ class World(object):
         """
         path = os.path.join('assets', config.WORLD_FOLDER, world_name)
         with open(path, 'r') as file:
-            self.width, self.height, start_x, start_y = [int(x) for x in
-                                                         file.readline().split()]
-            self.start = (start_x, start_y)
+            self.width, self.height, startx, starty = [int(x) for x in
+                                                       file.readline().split()]
+            self.start = (startx, starty)
             for _ in range(self.height):
                 string = file.readline().strip()
                 if len(string) != self.width:
-                    raise RuntimeError(
-                        'file format is wrong: expected len = ' + string(
-                            self.width) + ' but found ' +
-                        string(len(string)))
+                    logging.error('file format is wrong: expected len = ' +
+                                  str(self.width) + ' but found ' +
+                                  str(len(string)))
+                    raise RuntimeError()
                 self.tile_types.append([int(c) for c in string])
             if len(self.tile_types) != self.height:
-                raise RuntimeError('file format is wrong: expected ' + string(
-                    self.height) + ' rows but found ' +
-                                   string(len(self.tile_types)))
+                logging.error('file format is wrong: expected ' +
+                              str(self.height) + ' rows but found ' +
+                              str(len(self.tile_types)))
+                raise RuntimeError()
 
     def transform_layout(self):
         """
@@ -146,6 +149,8 @@ class World(object):
                 count += 1
             visited_cells.append(cur_pos)
             cur_pos = next_cell
+        ordered_waypoints.insert(0, self.start)
+        self.last = ordered_waypoints[-1]
         return ordered_waypoints
 
     def get_cell_position(self, rect=None):
@@ -154,7 +159,7 @@ class World(object):
         :return: position in the list
         """
         return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // \
-            self.tile_size[1]
+               self.tile_size[1]
 
     def place_tower(self, tower, pos):
         """

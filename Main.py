@@ -1,6 +1,8 @@
 import pygame
+import logging
 from BaseClasses.game import Game
 import config
+
 
 pygame.init()
 
@@ -13,4 +15,7 @@ def main():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='tower_defence.log', level=logging.INFO)
+    logging.info("Started")
     main()
+    logging.info("Finished")

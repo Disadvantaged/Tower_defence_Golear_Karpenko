@@ -18,3 +18,7 @@ class TowerBuilder(object):
             self.button.set_range(int(value))
         elif attribute == 'price':
             self.button.set_price(int(value))
+        elif attribute == 'dmg':
+            self.button.set_dmg(int(value))
+        elif attribute == 'delay':
+            self.button.set_delay(int(value))

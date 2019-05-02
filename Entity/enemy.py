@@ -1,4 +1,4 @@
-from BaseClasses import rectangle
+from BaseClasses import sprite
 import config
 
 
@@ -7,12 +7,12 @@ def normalize(heading):
     return heading[0] / normal, heading[1] / normal
 
 
-class Enemy(rectangle.Rectangle):
+class Enemy(sprite.Sprite):
     def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT,
                  image='enemy.png', num_waypoints=0):
         super().__init__(position, size, image)
         self.speed = config.ENEMY_SPEED_DEFAULT
-        self.current_waypoint = 0
+        self.current_waypoint = 1
         self.num_waypoints = num_waypoints
         self.destination = (0, 0)
         self.heading = (1, 0)

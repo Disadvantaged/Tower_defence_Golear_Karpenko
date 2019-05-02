@@ -1,7 +1,7 @@
-from BaseClasses import rectangle
+from BaseClasses import sprite
 
 
-class Block(rectangle.Rectangle):
+class Block(sprite.Sprite):
     """
     Blocks on grass that denies placing the tower.
     """

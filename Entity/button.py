@@ -1,12 +1,12 @@
 import os
-
+import logging
 import pygame
 
 import config
-from BaseClasses.rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 
 
-class Button(Rectangle):
+class Button(Sprite):
     def __init__(self, position=(0, 0), image=None):
         if image is not None:
             image = os.path.join(config.BUTTON_PATH, image)
@@ -29,7 +29,7 @@ class ExitButton(Button):
         super().__init__(position, 'quit.png')
 
     def action(self, pos):
-        print('exiting')
+        logging.info('exit')
         pygame.quit()
         exit()
 

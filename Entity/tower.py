@@ -1,10 +1,10 @@
 import os
 import math
 import config
-from BaseClasses.rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 
 
-class Tower(Rectangle):
+class Tower(Sprite):
     def __init__(self, position=(0, 0), image=None, price=config.TOWER_PRICE):
         if image is not None:
             if isinstance(image, str):
@@ -61,14 +61,20 @@ class Tower(Rectangle):
 
     def activate(self):
         self.is_activated = True
-        print('tower activated')
 
     def deactivate(self):
         self.is_activated = False
 
-    def action(self):
+    def action(self, _):
         if self.is_activated:
             config.GAME.customer.attach(self)
 
     def compute_distance(self, pos):
-        return math.sqrt((pos[0] - self.position[0]) ** 2 + (pos[1] - self.position[1]) ** 2)
+        return math.sqrt((pos[0] - self.position[0]) ** 2 +
+                         (pos[1] - self.position[1]) ** 2)
+
+    def set_delay(self, param):
+        self.delay = param
+
+    def set_dmg(self, param):
+        self.damage = param
