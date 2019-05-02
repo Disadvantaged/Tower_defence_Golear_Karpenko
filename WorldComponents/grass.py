@@ -1,7 +1,7 @@
-from Rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 
 
-class Grass(Rectangle):
+class Grass(Sprite):
     """
     Player can build towers on grass on.
     """

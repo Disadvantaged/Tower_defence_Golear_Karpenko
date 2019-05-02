@@ -4,8 +4,12 @@ import pygame
 
 import config
 
+from BaseClasses.rectangle import Rect
 
-class Rectangle(pygame.sprite.Sprite):
+from BaseClasses.coordinate import Coordinate
+
+
+class Sprite(pygame.sprite.Sprite):
     def __init__(self, position, size, image=None):
         """
         :param position: tuple(left, top)
@@ -14,49 +18,63 @@ class Rectangle(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         if position is None:
-            position = (0, 0)
-        self.position = position
-        self.size = size
-        self.rect = pygame.Rect(*position, *size)
-        self.can_build = False
+            position = Coordinate(0, 0)
+        self.position = Coordinate(position)
+        self.size = Coordinate(size)
+        self.rect = Rect(*position, *size)
         if image is None:
             image = 'empty.png'
         if isinstance(image, str):
             if image not in config.ASSETS:
-                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+                config.ASSETS[image] = pygame.image.load(
+                    os.path.join('assets', config.IMG_FOLDER, image)).convert()
             self.image = config.ASSETS[image]
             self._rescale()
         elif isinstance(image, pygame.Surface):
             self.image = image.copy()
 
-    def get_image(self):
+    def get_image(self) -> pygame.Surface:
         return self.image
 
-    def set_image(self, image):
+    def kill(self) -> None:
         """
-        :param image: if type == str then appends assets and loads image. else copies the image
+        wrap for sprite.
+        :return: None
+        """
+        super().kill()
+
+    def groups(self):
+        return super().groups()
+
+    def set_image(self, image) -> None:
+        """
+        Checks for image type and sets it properly.
+        :param image: If type == str then appends assets and loads image.
+                      Else copies the image
         :return: None
         """
         if isinstance(image, str):
             if image not in config.ASSETS:
-                config.ASSETS[image] = pygame.image.load(os.path.join('assets', config.IMG_FOLDER, image)).convert()
+                config.ASSETS[image] = pygame.image.load(
+                    os.path.join('assets', config.IMG_FOLDER, image)).convert()
             self.image = config.ASSETS[image]
         else:
             self.image = image.copy()
         self.image = pygame.transform.scale(self.image, self.size)
 
-    def move(self, x, y):
-        self.position = (self.position[0] + x, self.position[1] + y)
+    def move(self, x, y) -> None:
+        self.position += (x, y)
         self.rect.move_ip(x, y)
 
     def copy(self, position=None):
         """
-        :param position: the position for new rectangle. None if position as in self
+        Should be overwritten for child classes.
+        :param position: the position for new rectangle. None if pos==self.pos
         :return: new Rectangle
         """
         if position is None:
             position = self.position
-        rect = Rectangle(position, self.size, self.image)
+        rect = Sprite(position, self.size, self.image)
         rect.can_build = self.can_build
         return rect
 
@@ -65,15 +83,18 @@ class Rectangle(pygame.sprite.Sprite):
 
     def set_rect(self, rect):
         self.rect = rect
-        self.size = self.rect.size
+        self.size = Coordinate(self.rect.size)
         self._rescale()
 
     def set_size(self, size):
-        self.size = size
+        self.size = Coordinate(size)
         self.rect.size = self.size
         self._rescale()
 
     def _rescale(self):
+        """
+        Transforms image because its asset larger than size.
+        """
         self.image = pygame.transform.scale(self.image, self.size)
 
     def get_position(self):
@@ -90,6 +111,6 @@ class Rectangle(pygame.sprite.Sprite):
         return self.size[1]
 
     def get_center(self):
-        center_x = self.position[0] + self.size[0] // 2
-        center_y = self.position[1] + self.size[1] // 2
-        return center_x, center_y
+        center = self.position + self.size // 2
+        print(type(center))
+        return center

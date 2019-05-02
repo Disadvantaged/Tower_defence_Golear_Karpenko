@@ -1,11 +1,11 @@
-from Tower import Tower
+from Entity.tower import Tower
 
 
 class TowerBuilder(object):
     def __init__(self):
         self.button = Tower(image='tower1.png')
 
-    def new_TowerButton(self):
+    def new_tower_button(self):
         return self.button
 
     def clear(self):
@@ -18,3 +18,7 @@ class TowerBuilder(object):
             self.button.set_range(int(value))
         elif attribute == 'price':
             self.button.set_price(int(value))
+        elif attribute == 'dmg':
+            self.button.set_dmg(int(value))
+        elif attribute == 'delay':
+            self.button.set_delay(int(value))

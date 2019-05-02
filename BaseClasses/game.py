@@ -1,42 +1,43 @@
 import pygame
-
+import logging
 import config
-from Customer import Customer
-from EnemyController import EnemyController
-from Menu import Menu
-from World import World
+from BaseClasses.menu import Menu
+from BaseClasses.world import World
+from EntityController.customer import Customer
+from EntityController.enemy_controller import EnemyController
 
 
 class Game(object):
     """
-    Basic game class. Keeps information of all the game data. Handles user input and main loop
+    Basic game class. Keeps information of all the game data.
+    Handles user input and main loop
     """
 
     def __init__(self):
-        self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode(
+            (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         pygame.display.set_caption(config.TITLE)
         self.clock = pygame.time.Clock()
         self.FPS = config.FPS
-        config.FONT = pygame.font.Font(None, 38)
+        config.FONT = pygame.font.Font(None, config.FONT_SIZE)
         self.caption = config.TITLE
-        self.cells = []
-        self.pressed_cell = None  # if player pressed on the cell, shows it's information
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
         self.world = None
         self.customer = Customer()
         self.game_started = False
-        self.menu = Menu((0, config.FIELD_HEIGHT), config.MENU_WIDTH, config.MENU_HEIGHT)
+        self.menu = Menu((0, config.FIELD_HEIGHT),
+                         config.MENU_WIDTH, config.MENU_HEIGHT)
         self.load()
-
+        logging.info('loaded game data')
         self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
         self.world.set_rect(self.screen.blit(self.field, (0, 0)))
 
         config.ENEMY_SPAWN_EVENT = pygame.USEREVENT + 1
-        self.enemies = EnemyController(self)
-        self.all_sprites.add(self.enemies.get_enemies())
+        self.enemies = EnemyController(self.world.get_waypoints())
 
     def start_game(self):
+        logging.info('game started')
         self.customer.reset()
 
         self.enemies.clear()
@@ -58,7 +59,6 @@ class Game(object):
         for row in self.world.get_layout():
             self.tiles.add(*row)
             self.all_sprites.add(*row)
-            self.cells.extend(row)
 
     def handle_events(self):
         """
@@ -79,15 +79,19 @@ class Game(object):
 
     def check_mouse_pressed(self, pos):
         """
-        If player pressed left mouse button, checks if he pressed on a cell or not.
+        If player pressed left mouse button, checks if he pressed on a cell.
         :param pos: position of mouse click.
         """
-        if self.world.get_rect().collidepoint(pos) and self.customer.item_attached():
-            for cell in self.cells:
-                if cell.get_rect().collidepoint(pos) and cell.can_build and self.customer.enough_money():
+        if (self.world.get_rect().collidepoint(pos)
+                and self.customer.item_attached()):
+            for cell in self.tiles.sprites():
+                if (cell.get_rect().collidepoint(pos)
+                        and cell.can_build
+                        and self.customer.enough_money()):
                     tower = self.customer.buy_tower()
-                    self.world.place_tower(tower, self.world.get_cell_position(rect=cell.get_rect()))
-                    print('bought')
+                    self.world.place_tower(tower, self.world.get_cell_position(
+                        rect=cell.get_rect()))
+                    logging.info('bought tower')
         elif self.menu.get_rect().collidepoint(pos):
             for item in self.menu.get_items():
                 if item.get_rect().collidepoint(pos):
@@ -108,7 +112,11 @@ class Game(object):
         self.all_sprites.draw(self.field)
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
-        self.customer.draw(self.screen)
+        if self.customer.item_attached():
+            pos = pygame.mouse.get_pos()
+            pos = (pos[0] - self.customer.item.get_width() // 2,
+                   pos[1] - self.customer.item.get_height() // 2)
+            self.screen.blit(self.customer.item.get_image(), pos)
 
     def main_loop(self):
         while True:
@@ -118,4 +126,5 @@ class Game(object):
             self.update()
             self.screen.blit(self.field, self.field.get_rect())
             self.draw()
+
             pygame.display.update()

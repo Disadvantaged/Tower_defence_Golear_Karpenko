@@ -1,7 +1,5 @@
-import Block
-import Grass
-import Rectangle
-import Road
+from WorldComponents import grass, block, road
+from BaseClasses import sprite
 
 
 class CellFabric(object):
@@ -14,22 +12,22 @@ class CellFabric(object):
         :return: created cell
         """
         img = kwargs.get('img')  # by default: None
-        return Rectangle.Rectangle(position, size, img)
+        return sprite.Sprite(position, size, img)
 
 
 class GrassFabric(CellFabric):
     @staticmethod
-    def new_cell(position, size, **kwargs) -> Rectangle:
-        return Grass.Grass(position, size)
+    def new_cell(position, size, **kwargs) -> sprite:
+        return grass.Grass(position, size)
 
 
 class RoadFabric(CellFabric):
     @staticmethod
-    def new_cell(position, size, **kwargs) -> Rectangle:
-        return Road.Road(position, size)
+    def new_cell(position, size, **kwargs) -> sprite:
+        return road.Road(position, size)
 
 
 class BlockFabric(CellFabric):
     @staticmethod
     def new_cell(position, size, **kwargs):
-        return Block.Block(position, size)
+        return block.Block(position, size)

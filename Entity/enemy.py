@@ -1,4 +1,4 @@
-import Rectangle
+from BaseClasses import sprite
 import config
 
 
@@ -7,11 +7,12 @@ def normalize(heading):
     return heading[0] / normal, heading[1] / normal
 
 
-class Enemy(Rectangle.Rectangle):
-    def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT, image='enemy.png', num_waypoints=0):
+class Enemy(sprite.Sprite):
+    def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT,
+                 image='enemy.png', num_waypoints=0):
         super().__init__(position, size, image)
         self.speed = config.ENEMY_SPEED_DEFAULT
-        self.current_waypoint = 0
+        self.current_waypoint = 1
         self.num_waypoints = num_waypoints
         self.destination = (0, 0)
         self.heading = (1, 0)
@@ -35,7 +36,8 @@ class Enemy(Rectangle.Rectangle):
             self.kill()
         else:
             self.destination = next_waypoint
-            self.heading = next_waypoint[0] - cur_waypoint[0], next_waypoint[1] - cur_waypoint[1]
+            self.heading = next_waypoint[0] - cur_waypoint[0],\
+                           next_waypoint[1] - cur_waypoint[1]
             self.heading = normalize(self.heading)
 
     def activate(self):
@@ -59,15 +61,18 @@ class Enemy(Rectangle.Rectangle):
         return self.heading
 
     def set_heading(self, heading):
-        self.heading = heading[0] - self.position[0], heading[1] - self.position[1]
+        self.heading = heading[0] - self.position[0],\
+                       heading[1] - self.position[1]
         self.heading = normalize(self.heading)
 
     def get_life(self):
         return self.life
 
     def out_of_bounds(self, bounds):
-        if (self.rect.left > bounds.right or self.rect.right < bounds.left
-                or self.rect.bottom < bounds.top or self.rect.top > bounds.bottom):
+        if (self.rect.left > bounds.right
+                or self.rect.right < bounds.left
+                or self.rect.bottom < bounds.top
+                or self.rect.top > bounds.bottom):
             return True
         return False
 

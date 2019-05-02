@@ -1,0 +1,12 @@
+language: python
+install:
+  - pip install -r requirements.txt
+notifications:
+  email:
+    recipients:
+      - dgolear99@gmail.com
+      - karpenko.mn@phystech.edu
+    on_success: never # default: change
+    on_failure: always # default: always
+script:
+  - python3 -m pytest

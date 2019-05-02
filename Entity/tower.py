@@ -1,11 +1,10 @@
-import math
 import os
-
+import math
 import config
-from Rectangle import Rectangle
+from BaseClasses.sprite import Sprite
 
 
-class Tower(Rectangle):
+class Tower(Sprite):
     def __init__(self, position=(0, 0), image=None, price=config.TOWER_PRICE):
         if image is not None:
             if isinstance(image, str):
@@ -37,7 +36,7 @@ class Tower(Rectangle):
         tower.range = self.range
         return tower
 
-    def update(self, *args):
+    def update(self):
         if self.is_on_field:
             if self.wait:
                 self.waiting_time += config.GAME.clock.tick()
@@ -49,10 +48,10 @@ class Tower(Rectangle):
                     if not self.wait:
                         self.wait = True
                         enemy.attacked(self.damage)
-                        if not enemy.alive():
-                            config.GAME.enemies.num_enemies -= 1
-                            if config.GAME.enemies.check_for_win():
-                                config.GAME.win()
+                if not enemy.alive():
+                    config.GAME.enemies.num_enemies -= 1
+                if config.GAME.enemies.check_for_win():
+                    config.GAME.win()
 
     def set_range(self, ran):
         self.range = ran
@@ -62,14 +61,20 @@ class Tower(Rectangle):
 
     def activate(self):
         self.is_activated = True
-        print('tower activated')
 
     def deactivate(self):
         self.is_activated = False
 
-    def action(self, pos):
+    def action(self, _):
         if self.is_activated:
             config.GAME.customer.attach(self)
 
     def compute_distance(self, pos):
-        return math.sqrt((pos[0] - self.position[0]) ** 2 + (pos[1] - self.position[1]) ** 2)
+        return math.sqrt((pos[0] - self.position[0]) ** 2 +
+                         (pos[1] - self.position[1]) ** 2)
+
+    def set_delay(self, param):
+        self.delay = param
+
+    def set_dmg(self, param):
+        self.damage = param

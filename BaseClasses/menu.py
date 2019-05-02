@@ -1,26 +1,33 @@
-from Button import *
-from Rectangle import Rectangle
-from TowerBuilder import *
-from config import *
+from Entity.button import *
+from BaseClasses.sprite import Sprite
+from BaseClasses.rectangle import Rect
+from EntityController.tower_builder import TowerBuilder
+from Entity.tower import Tower
+import config
 
 
-class Menu(Rectangle):
-    def __init__(self, position, width, height, b_color=MENU_BG_COLOR):
-        self.but_pos = (MENU_NUM_BUTTON * (BUTTON_WIDTH + MENU_DIST_BUTTON)) // 2
+class Menu(Sprite):
+    def __init__(self, position, width, height, b_color=config.MENU_BG_COLOR):
+        self.but_pos = (config.MENU_NUM_BUTTON *
+                        (config.BUTTON_WIDTH + config.MENU_DIST_BUTTON)) // 2
         self.position = position
         self.width = width
         self.height = height
         self.b_color = b_color
         self.items = pygame.sprite.Group()
-        self.rect = pygame.Rect(position, (width, height))
+        self.rect = Rect(position, (width, height))
         self.add_button(button_type=NewWaveButton)
         self.add_button(button_type=PlayButton)
         self.add_button(button_type=ExitButton)
         self.tower_num = 0
         self.curr_tow = 0
         self.customers_money = config.CUSTOMER_MONEY
-        self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, (config.RED))
-        self.customer_status_pos = self.customer_status.get_rect(center=self.rect.center)
+        self.customer_status = config.FONT.render(
+            f"Customers money: {self.customers_money}", 1, config.RED
+        )
+        self.customer_status_pos = self.customer_status.get_rect(
+            center=self.rect.center
+        )
         self.customer_status_pos.x += 300
         self.dist_tow_but = 20
         self.towers_data = []
@@ -30,7 +37,7 @@ class Menu(Rectangle):
             self.tower_builder.clear()
             for arg in self.towers_data[i].split(' '):
                 self.tower_builder.set_property(*arg.split('='))
-            self.add_button(button=self.tower_builder.new_TowerButton())
+            self.add_button(button=self.tower_builder.new_tower_button())
 
             self.curr_tow = i
 
@@ -43,7 +50,9 @@ class Menu(Rectangle):
     def update(self):
         self.customers_money = config.GAME.customer.money
         if config.GAME.game_started:
-            self.customer_status = config.FONT.render(f"Customers money: {self.customers_money}", 1, config.RED)
+            self.customer_status = config.FONT.render(
+                f"Customers money: {self.customers_money}", 1, config.RED
+            )
         for button in self.items:
             if isinstance(button, Tower):
                 if self.customers_money < button.get_price():
@@ -51,30 +60,33 @@ class Menu(Rectangle):
 
     def add_button(self, button_type=None, button=None):
         """
-        :param button_type: creates button with given type, if None then finds place for button
-        :param button: finds place for a button, if None then button_type should not be None
+        Either of parameters should not be None
+        :param button_type: creates button with given type
+        :param button: finds place for a button
         :return: None
         """
-        if (button_type is None and button is None) or (button is not None and button_type is not None):
+        if (button_type is None and button is None
+                or button is not None and button_type is not None):
             return None
         if button_type:
             button = button_type((0, 0))
             pos = self.next_item_position(button)
             button.set_position(pos)
         else:
-            pos = self.next_TowBut_position(button)
+            pos = self.next_tower_button_position(button)
             button.set_position(pos)
         self.items.add(button)
 
     def next_item_position(self, btn):
-        pos = self.rect.centerx - self.but_pos, self.rect.centery - btn.get_height() // 2
-        self.but_pos -= (MENU_DIST_BUTTON + BUTTON_WIDTH)
+        pos = self.rect.centerx - self.but_pos,\
+              self.rect.centery - btn.get_height() // 2
+        self.but_pos -= (config.MENU_DIST_BUTTON + config.BUTTON_WIDTH)
         return pos
 
-    def next_TowBut_position(self, btn):
+    def next_tower_button_position(self, btn):
         pos = (self.rect.centerx - self.rect.centerx // 1.2 + self.dist_tow_but,
                self.rect.centery - btn.get_height() // 2)
-        self.dist_tow_but += BUTTON_WIDTH
+        self.dist_tow_but += config.BUTTON_WIDTH
         return pos
 
     def draw(self, surface):
@@ -83,14 +95,16 @@ class Menu(Rectangle):
         surface.blit(self.customer_status, self.customer_status_pos)
 
     def load_data(self):
-        path = os.path.join('assets', config.TOWER_FOLDER, TOWERS_FILE)
+        path = os.path.join('assets', config.TOWER_FOLDER, config.TOWERS_FILE)
         with open(path, 'r') as f:
             self.tower_num = int(f.readline()[:1])
             for line in f:
                 self.towers_data.append(line.strip())
 
     def set_lost(self):
-        self.customer_status = config.FONT.render("You lost. Pressed Start to start new game", 1, (config.RED))
+        self.customer_status = config.FONT.render(
+            "You lost. Pressed Start to start new game", 1, config.RED
+        )
         for button in self.items:
             button.deactivate()
 
@@ -100,6 +114,8 @@ class Menu(Rectangle):
 
     def win(self):
         print(3)
-        self.customer_status = config.FONT.render("You won. Congratulations!", 1, (config.RED))
+        self.customer_status = config.FONT.render(
+            "You won. Congratulations!", 1, config.RED
+        )
         for button in self.items:
             button.deactivate()
