@@ -1,4 +1,5 @@
 import unittest
+
 from base_classes.coordinate import Coordinate
 
 
@@ -65,10 +66,11 @@ class TestCoordinates(unittest.TestCase):
     def test_unpacking(self):
         left = Coordinate(2, 2)
         mapped = {'x': 2, 'y': 2}
-        self.assertEqual(left.keys(), mapped.keys())
+        self.assertEqual(left.keys(), ['x', 'y'])
         var = {key: left.__getitem__(key) for key in left.keys()}
         self.assertEqual(var, mapped)
         self.assertEqual(*left, mapped.values())
+
 
 if __name__ == '__main__':
     unittest.main()
