@@ -1,6 +1,6 @@
 import pygame
 
-from Entity.enemy import Enemy
+from entity.enemy import Enemy
 import config
 
 

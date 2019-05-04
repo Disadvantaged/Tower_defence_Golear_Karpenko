@@ -1,6 +1,6 @@
 import pygame
 import logging
-from BaseClasses.game import Game
+from base_classes.game import Game
 import config
 
 

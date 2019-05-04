@@ -1,4 +1,4 @@
-from BaseClasses import sprite
+from base_classes import sprite
 
 
 class Block(sprite.Sprite):

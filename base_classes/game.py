@@ -1,10 +1,10 @@
-import pygame
 import logging
+import pygame
 import config
-from BaseClasses.menu import Menu
-from BaseClasses.world import World
-from EntityController.customer import Customer
-from EntityController.enemy_controller import EnemyController
+from base_classes.menu import Menu
+from base_classes.world import World
+from entity_controller.customer import Customer
+from entity_controller.enemy_controller import EnemyController
 
 
 class Game(object):

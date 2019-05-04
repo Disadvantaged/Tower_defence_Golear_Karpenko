@@ -1,10 +1,11 @@
-from BaseClasses import sprite
+from base_classes import sprite
+from base_classes.coordinate import Coordinate
 import config
 
 
 def normalize(heading):
     normal = (heading[0] ** 2 + heading[1] ** 2) ** 0.5
-    return heading[0] / normal, heading[1] / normal
+    return heading / normal
 
 
 class Enemy(sprite.Sprite):
@@ -14,8 +15,8 @@ class Enemy(sprite.Sprite):
         self.speed = config.ENEMY_SPEED_DEFAULT
         self.current_waypoint = 1
         self.num_waypoints = num_waypoints
-        self.destination = (0, 0)
-        self.heading = (1, 0)
+        self.destination = Coordinate(0, 0)
+        self.heading = Coordinate(1, 0)
         self.visited = False
         self.life = config.ENEMY_LIFE_DEFAULT
         self.is_active = False
@@ -36,8 +37,7 @@ class Enemy(sprite.Sprite):
             self.kill()
         else:
             self.destination = next_waypoint
-            self.heading = next_waypoint[0] - cur_waypoint[0],\
-                           next_waypoint[1] - cur_waypoint[1]
+            self.heading = next_waypoint - cur_waypoint
             self.heading = normalize(self.heading)
 
     def activate(self):
@@ -61,8 +61,7 @@ class Enemy(sprite.Sprite):
         return self.heading
 
     def set_heading(self, heading):
-        self.heading = heading[0] - self.position[0],\
-                       heading[1] - self.position[1]
+        self.heading = heading - self.position
         self.heading = normalize(self.heading)
 
     def get_life(self):
@@ -82,8 +81,9 @@ class Enemy(sprite.Sprite):
         if self.out_of_bounds(bounds):
             self.kill()
         steps = self.speed
+
         while steps > 0:
-            self.move(self.heading[0] * 1, self.heading[1] * 1)
+            self.move(*self.heading)
             steps -= 1
             if self.position == self.destination:
                 self.visited = True

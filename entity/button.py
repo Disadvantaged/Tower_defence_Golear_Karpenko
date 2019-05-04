@@ -3,7 +3,7 @@ import logging
 import pygame
 
 import config
-from BaseClasses.sprite import Sprite
+from base_classes.sprite import Sprite
 
 
 class Button(Sprite):

@@ -2,7 +2,8 @@ import collections
 import os
 import logging
 
-from WorldComponents import fabrics
+from base_classes.coordinate import Coordinate
+from world_components import fabrics
 import config
 
 
@@ -12,7 +13,7 @@ class World(object):
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []
-        self.start = self.last = (0, 0)  # world coordinates.
+        self.start = self.last = Coordinate(0, 0)  # world coordinates.
         self.cell_generator = collections.defaultdict(fabrics.CellFabric)
         self.cell_generator[0] = fabrics.GrassFabric
         self.cell_generator[1] = fabrics.BlockFabric
@@ -22,6 +23,7 @@ class World(object):
         self.waypoints = []
         self.towers = []
         self.load_data(world_name)
+        print(*self.waypoints)
 
     def get_tile_size(self):
         return self.tile_size
@@ -55,8 +57,8 @@ class World(object):
         """
         self.empty_data()
         self.load_layout(world_name)
-        self.tile_size = config.FIELD_WIDTH // self.width, \
-                         config.FIELD_HEIGHT // self.height
+        self.tile_size = Coordinate(config.FIELD_WIDTH // self.width,
+                                    config.FIELD_HEIGHT // self.height)
         self.transform_layout()
         self.waypoints = self.order_waypoints(self.tile_types, self.waypoints)
         self.transform_waypoints()
@@ -85,8 +87,7 @@ class World(object):
         waypoints = self.waypoints
         self.waypoints = []
         for way_point in waypoints:
-            self.waypoints.append((way_point[0] * self.tile_size[0],
-                                   way_point[1] * self.tile_size[1]))
+            self.waypoints.append(way_point * self.tile_size)
 
     def load_layout(self, world_name):
         """
@@ -99,7 +100,7 @@ class World(object):
         with open(path, 'r') as file:
             self.width, self.height, startx, starty = [int(x) for x in
                                                        file.readline().split()]
-            self.start = (startx, starty)
+            self.start = Coordinate(startx, starty)
             for _ in range(self.height):
                 string = file.readline().strip()
                 if len(string) != self.width:
@@ -123,7 +124,7 @@ class World(object):
             cell_row = []
 
             for col in range(len(self.tile_types[row])):
-                pos = col * self.tile_size[0], row * self.tile_size[1]
+                pos = col * self.tile_size.x, row * self.tile_size.y
                 if self.tile_types[row][col] == 3:
                     self.waypoints.append((col, row))
                 cell_row.append(
@@ -144,7 +145,7 @@ class World(object):
         length = len(waypoints)
         while count < length:
             next_cell = self.next_cur_pos(layout, cur_pos, visited_cells)
-            if layout[next_cell[1]][next_cell[0]] == 3:
+            if layout[next_cell.y][next_cell.x] == 3:
                 ordered_waypoints.append(next_cell)
                 count += 1
             visited_cells.append(cur_pos)
@@ -158,24 +159,24 @@ class World(object):
         :param rect: rect of a cell
         :return: position in the list
         """
-        return rect.topleft[0] // self.tile_size[0], rect.topleft[1] // \
-               self.tile_size[1]
+        return Coordinate(rect.topleft) // self.tile_size
 
     def place_tower(self, tower, pos):
         """
         Changes cell on the layout.
         Previous cell is being destroyed and its groups are added to the tower.
         :param tower: Tower from the menu. Needs to be copied.
+        :param pos: position where to place tower
         :return: None
         """
-        tower = tower.copy(self.layout[pos[1]][pos[0]].get_position())
+        tower = tower.copy(self.layout[pos.y][pos.x].get_position())
         tower.can_build = False
-        tower.set_position(self.layout[pos[1]][pos[0]].get_position())
+        tower.set_position(self.layout[pos.y][pos.x].get_position())
         tower.set_on_field()
         tower.deactivate()
-        tower.add(*(self.layout[pos[1]][pos[0]].groups()))
-        self.layout[pos[1]][pos[0]].kill()
-        self.layout[pos[1]][pos[0]] = tower
+        tower.add(*(self.layout[pos.y][pos.x].groups()))
+        self.layout[pos.y][pos.x].kill()
+        self.layout[pos.y][pos.x] = tower
         self.towers.append(tower)
         tower.set_size(self.tile_size)
 
@@ -184,27 +185,27 @@ class World(object):
         Finds next position for path.
         :return: next position
         """
-        can_top = cur_pos[1] > 0
-        can_bot = cur_pos[1] < self.height - 1
-        can_left = cur_pos[0] > 0
-        can_right = cur_pos[0] < self.width - 1
+        can_top = cur_pos.y > 0
+        can_bot = cur_pos.y < self.height - 1
+        can_left = cur_pos.x > 0
+        can_right = cur_pos.x < self.width - 1
         if can_right:
-            new_pos = (cur_pos[0] + 1, cur_pos[1])
+            new_pos = Coordinate(cur_pos.x + 1, cur_pos.y)
             if self.check_middle_path(new_pos,
                                       layout) and new_pos not in visited_cells:
                 return new_pos
         if can_left:
-            new_pos = (cur_pos[0] - 1, cur_pos[1])
+            new_pos = Coordinate(cur_pos.x - 1, cur_pos.y)
             if self.check_middle_path(new_pos,
                                       layout) and new_pos not in visited_cells:
                 return new_pos
         if can_bot:
-            new_pos = (cur_pos[0], cur_pos[1] + 1)
+            new_pos = Coordinate(cur_pos.x, cur_pos.y + 1)
             if self.check_middle_path(new_pos,
                                       layout) and new_pos not in visited_cells:
                 return new_pos
         if can_top:
-            new_pos = (cur_pos[0], cur_pos[1] - 1)
+            new_pos = Coordinate(cur_pos.x, cur_pos.y - 1)
             if self.check_middle_path(new_pos,
                                       layout) and new_pos not in visited_cells:
                 return new_pos
@@ -220,29 +221,29 @@ class World(object):
         :return: true if cell is in the middle, false otherwise.
         """
         path_types = [2, 3]
-        if layout[pos[1]][pos[0]] not in path_types:
+        if layout[pos.y][pos.x] not in path_types:
             return False
-        can_top = pos[1] > 0
-        can_bot = pos[1] < self.height - 1
-        can_left = pos[0] > 0
-        can_right = pos[0] < self.width - 1
+        can_top = pos.y > 0
+        can_bot = pos.y < self.height - 1
+        can_left = pos.y > 0
+        can_right = pos.x < self.width - 1
         if can_top:
-            if layout[pos[1] - 1][pos[0]] not in path_types:
+            if layout[pos.y - 1][pos.x] not in path_types:
                 return False
             if can_left:
-                if layout[pos[1] - 1][pos[0] - 1] not in path_types:
+                if layout[pos.y - 1][pos.x - 1] not in path_types:
                     return False
             if can_right:
-                if layout[pos[1] - 1][pos[0] - 1] not in path_types:
+                if layout[pos.y - 1][pos.x - 1] not in path_types:
                     return False
         if can_bot:
-            if layout[pos[1] + 1][pos[0]] not in path_types:
+            if layout[pos.y + 1][pos.x] not in path_types:
                 return False
             if can_right:
-                if layout[pos[1] + 1][pos[0] + 1] not in path_types:
+                if layout[pos.y + 1][pos.x + 1] not in path_types:
                     return False
             if can_left:
-                if layout[pos[1] + 1][pos[0] - 1] not in path_types:
+                if layout[pos.y + 1][pos.x - 1] not in path_types:
                     return False
         return True
 
@@ -257,4 +258,4 @@ class World(object):
         self.waypoints = []
         self.tile_types = []
         self.layout = []
-        self.start = self.last = (0, 0)
+        self.start = self.last = Coordinate(0, 0)

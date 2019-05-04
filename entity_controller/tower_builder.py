@@ -1,4 +1,4 @@
-from Entity.tower import Tower
+from entity.tower import Tower
 
 
 class TowerBuilder(object):

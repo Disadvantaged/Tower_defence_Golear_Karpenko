@@ -1,4 +1,4 @@
-from BaseClasses.sprite import Sprite
+from base_classes.sprite import Sprite
 
 
 class Grass(Sprite):

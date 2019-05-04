@@ -4,9 +4,9 @@ import pygame
 
 import config
 
-from BaseClasses.rectangle import Rect
+from base_classes.rectangle import Rect
 
-from BaseClasses.coordinate import Coordinate
+from base_classes.coordinate import Coordinate
 
 
 class Sprite(pygame.sprite.Sprite):

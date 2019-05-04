@@ -1,5 +1,6 @@
+import logging
 import config
-from Entity.tower import Tower
+from entity.tower import Tower
 
 
 class Customer:
@@ -8,7 +9,7 @@ class Customer:
         self.money = config.CUSTOMER_MONEY
 
     def attach(self, item: Tower):
-        print('attached')
+        logging.debug('attached')
         if self.money >= item.price:
             self.item = item
 
@@ -19,7 +20,7 @@ class Customer:
         self.money += money
 
     def detach(self):
-        print('detached')
+        logging.debug('detached')
         item = self.item
         self.item = None
         return item

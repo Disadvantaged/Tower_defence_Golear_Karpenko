@@ -1,0 +1,13 @@
+
+# Include the README
+include *.md
+
+# Include the license file
+include LICENSE.txt
+
+include requirements.txt
+include architecture.txt
+
+# Include the data files
+recursive-include assets *
+

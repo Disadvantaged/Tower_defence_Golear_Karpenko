@@ -1,5 +1,5 @@
-from WorldComponents import grass, block, road
-from BaseClasses import sprite
+from world_components import grass, block, road
+from base_classes import sprite
 
 
 class CellFabric(object):

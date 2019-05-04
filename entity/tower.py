@@ -1,7 +1,7 @@
 import os
 import math
 import config
-from BaseClasses.sprite import Sprite
+from base_classes.sprite import Sprite
 
 
 class Tower(Sprite):

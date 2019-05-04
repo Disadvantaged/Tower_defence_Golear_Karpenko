@@ -20,10 +20,13 @@ class Coordinate:
     def keys():
         return ['x', 'y']
 
+    def __str__(self):
+        return f"x: {self.x}, y: {self.y}"
+
     def __getitem__(self, item):
-        if item == 0 or item == 'x':
+        if item in (0, 'x'):
             return self.x
-        if item == 1 or item == 'y':
+        if item in (1, 'y'):
             return self.y
         return self.__getattribute__(item)
 
@@ -49,69 +52,71 @@ class Coordinate:
         return not self == other
 
     def __imul__(self, other):
-        if isinstance(other, Coordinate):
-            self.x *= other.x
-            self.y *= other.y
-        elif isinstance(other, int) or isinstance(other, float):
-            self.x *= other
-            self.y *= other
-        elif isinstance(other, tuple):
+        if isinstance(other, (Coordinate, tuple)):
             self.x *= other[0]
             self.y *= other[1]
+        elif isinstance(other, (int, float)):
+            self.x *= other
+            self.y *= other
         return self
 
     def __mul__(self, other):
-        temp = Coordinate(self.x, self.y)
+        temp = Coordinate(self)
         temp *= other
         return temp
 
+    def __itruediv__(self, other):
+        if isinstance(other, (Coordinate, tuple)):
+            self.x /= other[0]
+            self.y /= other[1]
+        elif isinstance(other, (int, float)):
+            self.x /= other
+            self.y /= other
+        return self
+
+    def __truediv__(self, other):
+        temp = Coordinate(self)
+        temp /= other
+        return temp
+
     def __ifloordiv__(self, other):
-        if isinstance(other, Coordinate):
-            self.x //= other.x
-            self.y //= other.y
-        elif isinstance(other, int) or isinstance(other, float):
-            self.x //= other
-            self.y //= other
-        elif isinstance(other, tuple):
+        if isinstance(other, (Coordinate, tuple)):
             self.x //= other[0]
             self.y //= other[1]
+        elif isinstance(other, (int, float)):
+            self.x //= other
+            self.y //= other
         return self
 
     def __floordiv__(self, other):
-        temp = Coordinate(self.x, self.y)
+        temp = Coordinate(self)
         temp //= other
         return temp
 
     def __iadd__(self, other):
-        if isinstance(other, Coordinate):
-            self.x += other.x
-            self.y += other.y
-        elif isinstance(other, int) or isinstance(other, float):
-            self.x += other
-            self.y += other
-        elif isinstance(other, tuple):
+        if isinstance(other, (Coordinate, tuple)):
             self.x += other[0]
             self.y += other[1]
+        elif isinstance(other, (int, float)):
+            self.x += other
+            self.y += other
         return self
 
     def __add__(self, other):
-        temp = Coordinate(self.x, self.y)
+        temp = Coordinate(self)
         temp += other
         return temp
 
     def __isub__(self, other):
-        if isinstance(other, Coordinate):
-            self.x -= other.x
-            self.y -= other.y
-        elif isinstance(other, int) or isinstance(other, float):
-            self.x -= other
-            self.y -= other
-        elif isinstance(other, tuple):
+        if isinstance(other, (Coordinate, tuple)):
             self.x -= other[0]
             self.y -= other[1]
+        elif isinstance(other, (int, float)):
+            self.x -= other
+            self.y -= other
         return self
 
     def __sub__(self, other):
-        temp = Coordinate(self.x, self.y)
+        temp = Coordinate(self)
         temp -= other
         return temp
