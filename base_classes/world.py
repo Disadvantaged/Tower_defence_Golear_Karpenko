@@ -1,10 +1,10 @@
 import collections
-import os
 import logging
+import os
 
+import config
 from base_classes.coordinate import Coordinate
 from world_components import fabrics
-import config
 
 
 class World(object):
@@ -23,7 +23,7 @@ class World(object):
         self.waypoints = []
         self.towers = []
         self.load_data(world_name)
-        print(*self.waypoints)
+        logging.info(*self.waypoints)
 
     def get_tile_size(self):
         return self.tile_size

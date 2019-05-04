@@ -3,10 +3,8 @@ import os
 import pygame
 
 import config
-
-from base_classes.rectangle import Rect
-
 from base_classes.coordinate import Coordinate
+from base_classes.rectangle import Rect
 
 
 class Sprite(pygame.sprite.Sprite):
@@ -75,7 +73,6 @@ class Sprite(pygame.sprite.Sprite):
         if position is None:
             position = self.position
         rect = Sprite(position, self.size, self.image)
-        rect.can_build = self.can_build
         return rect
 
     def get_rect(self):
@@ -85,6 +82,9 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = rect
         self.size = Coordinate(self.rect.size)
         self._rescale()
+
+    def get_size(self):
+        return self.size
 
     def set_size(self, size):
         self.size = Coordinate(size)

@@ -1,5 +1,7 @@
-import os
+import logging
 import math
+import os
+
 import config
 from base_classes.sprite import Sprite
 
@@ -33,7 +35,10 @@ class Tower(Sprite):
         tower = Tower(self.position, self.image, self.price)
         tower.is_on_field = self.is_on_field
         tower.is_activated = self.is_activated
+        tower.damage = self.damage
+        tower.delay = self.delay
         tower.range = self.range
+        logging.info(f'{self.range} {self.delay} {self.damage}')
         return tower
 
     def update(self):

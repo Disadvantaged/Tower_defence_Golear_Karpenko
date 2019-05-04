@@ -1,7 +1,11 @@
 import logging
+
 import pygame
+
 import config
+from base_classes.coordinate import Coordinate
 from base_classes.menu import Menu
+from base_classes.sound_controller import SoundController
 from base_classes.world import World
 from entity_controller.customer import Customer
 from entity_controller.enemy_controller import EnemyController
@@ -29,6 +33,7 @@ class Game(object):
         self.menu = Menu((0, config.FIELD_HEIGHT),
                          config.MENU_WIDTH, config.MENU_HEIGHT)
         self.load()
+        self.sound_controller = SoundController()
         logging.info('loaded game data')
         self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
         self.world.set_rect(self.screen.blit(self.field, (0, 0)))
@@ -113,9 +118,8 @@ class Game(object):
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
         if self.customer.item_attached():
-            pos = pygame.mouse.get_pos()
-            pos = (pos[0] - self.customer.item.get_width() // 2,
-                   pos[1] - self.customer.item.get_height() // 2)
+            pos = Coordinate(pygame.mouse.get_pos())
+            pos = (pos - self.customer.item.get_size() // 2)
             self.screen.blit(self.customer.item.get_image(), pos)
 
     def main_loop(self):

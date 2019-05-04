@@ -3,22 +3,22 @@ from entity.tower import Tower
 
 class TowerBuilder(object):
     def __init__(self):
-        self.button = Tower(image='tower1.png')
+        self.tower = Tower(image='tower1.png')
 
     def new_tower_button(self):
-        return self.button
+        return self.tower
 
     def clear(self):
-        self.button = Tower(image='tower1.png')
+        self.tower = Tower(image='tower1.png')
 
     def set_property(self, attribute, value):
         if attribute == 'image':
-            self.button.set_image(value)
+            self.tower.set_image(value)
         elif attribute == 'range':
-            self.button.set_range(int(value))
+            self.tower.set_range(int(value))
         elif attribute == 'price':
-            self.button.set_price(int(value))
-        elif attribute == 'dmg':
-            self.button.set_dmg(int(value))
+            self.tower.set_price(int(value))
+        elif attribute == 'damage':
+            self.tower.set_dmg(int(value))
         elif attribute == 'delay':
-            self.button.set_delay(int(value))
+            self.tower.set_delay(int(value))

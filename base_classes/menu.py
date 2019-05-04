@@ -1,5 +1,7 @@
 import os
+
 import pygame
+
 import config
 from base_classes.rectangle import Rect
 from base_classes.sprite import Sprite
@@ -105,8 +107,7 @@ class Menu(Sprite):
 
     def set_lost(self):
         self.customer_status = config.FONT.render(
-            "You lost. Pressed Start to start new game", 1, config.RED
-        )
+            "You lost. Pressed Start.", 1, config.RED)
         for button in self.items:
             button.deactivate()
 
