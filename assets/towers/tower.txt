@@ -1,4 +1,4 @@
 3
 image=towers/tower1.png
-image=towers/tower3.png price=400 range=130 delay=8
-image=towers/tower2.png price=1000 range=160 damage=13 delay=20
+image=towers/tower3.png price=400 range=130 delay=8 damage=4
+image=towers/tower2.png price=800 range=160 damage=13 delay=20

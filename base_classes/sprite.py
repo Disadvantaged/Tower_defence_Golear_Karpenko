@@ -72,8 +72,8 @@ class Sprite(pygame.sprite.Sprite):
         """
         if position is None:
             position = self.position
-        rect = Sprite(position, self.size, self.image)
-        return rect
+        sprite = Sprite(position, self.size, self.image)
+        return sprite
 
     def get_rect(self):
         return self.rect
@@ -105,10 +105,10 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = pygame.Rect(self.position, self.size)
 
     def get_width(self):
-        return self.size[0]
+        return self.size.x
 
     def get_height(self):
-        return self.size[1]
+        return self.size.y
 
     def get_center(self):
         center = self.position + self.size // 2

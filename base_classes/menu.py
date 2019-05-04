@@ -69,9 +69,8 @@ class Menu(Sprite):
         :param button: finds place for a button
         :return: None
         """
-        if (button_type is None and button is None
-                or button is not None and button_type is not None):
-            return None
+        if (button_type is None) == (button is None):
+            raise ValueError
         if button_type:
             button = button_type((0, 0))
             pos = self.next_item_position(button)
@@ -100,9 +99,9 @@ class Menu(Sprite):
 
     def load_data(self):
         path = os.path.join('assets', config.TOWER_FOLDER, config.TOWERS_FILE)
-        with open(path, 'r') as f:
-            self.tower_num = int(f.readline()[:1])
-            for line in f:
+        with open(path, 'r') as file:
+            self.tower_num = int(file.readline()[:1])
+            for line in file:
                 self.towers_data.append(line.strip())
 
     def set_lost(self):

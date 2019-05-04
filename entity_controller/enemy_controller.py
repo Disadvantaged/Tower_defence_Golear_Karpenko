@@ -1,7 +1,9 @@
+import logging
+
 import pygame
 
-from entity.enemy import Enemy
 import config
+from entity.enemy import Enemy
 
 
 class EnemyController(object):
@@ -45,6 +47,7 @@ class EnemyController(object):
                     enemy.visited = False
                     if cur + 1 == len(self.waypoints):
                         enemy.kill()
+                        logging.info('%d' % self.num_enemies)
                         if self.check_for_win():
                             config.GAME.win()
                         self.num_enemies -= 1
@@ -63,6 +66,7 @@ class EnemyController(object):
 
     def clear(self):
         self.enemies.empty()
+        pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, 0)
         self.num_enemies = 0
         self.wave_len = config.ENEMY_WAVE_LEN
         self.current_wave = 0
