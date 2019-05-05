@@ -1,4 +1,3 @@
-import os
 import unittest
 
 import pygame
@@ -11,7 +10,6 @@ from base_classes.world import World
 class WorldTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        os.chdir('..')
         cls.world = World(config.WORLD2, transform=False)
 
     @classmethod
