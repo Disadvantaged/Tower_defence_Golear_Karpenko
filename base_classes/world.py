@@ -9,10 +9,11 @@ from world_components.fabrics import CellFabric, \
 
 
 class World(object):
-    def __init__(self, world_name):
+    def __init__(self, world_name, transform=True):
         self.tile_size = config.TILE_SIZE
         self.width = self.height = 0
         self.layout = []
+        self.transform = transform
         self.tile_types = []
         self.start = self.last = Coordinate(0, 0)  # world coordinates.
         # noinspection PyTypeChecker
@@ -129,10 +130,12 @@ but found %d', str(self.height), str(len(self.tile_types)))
                 pos = Coordinate(col, row) * self.tile_size
                 if self.tile_types[row][col] == 3:
                     self.waypoints.append(Coordinate(col, row))
-                cell_row.append(
-                    self.cell_generator[self.tile_types[row][col]].new_cell(
-                        pos, self.tile_size))
-            self.layout.append(cell_row)
+                if self.transform:
+                    cell_row.append(
+                        self.cell_generator[self.tile_types[row][col]].new_cell(
+                            pos, self.tile_size))
+            if self.transform:
+                self.layout.append(cell_row)
 
     def order_waypoints(self, layout, waypoints):
         """
@@ -154,7 +157,7 @@ but found %d', str(self.height), str(len(self.tile_types)))
             visited_cells.append(cur_pos)
             cur_pos = self.next_cur_pos(layout, cur_pos, visited_cells)
         self.last = ordered_waypoints[-1]
-        print(*ordered_waypoints)
+        logging.info('%s', ' '.join(map(str, ordered_waypoints)))
         return ordered_waypoints
 
     def get_cell_position(self, rect):

@@ -11,10 +11,8 @@ from base_classes.world import World
 class WorldTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        pygame.init()
-        pygame.display.set_mode()
         os.chdir('..')
-        cls.world = World(config.WORLD2)
+        cls.world = World(config.WORLD2, transform=False)
 
     @classmethod
     def tearDownClass(cls):

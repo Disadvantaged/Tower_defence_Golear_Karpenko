@@ -115,7 +115,6 @@ class Menu(Sprite):
             button.activate()
 
     def win(self):
-        print(3)
         self.customer_status = config.FONT.render(
             "You won. Congratulations!", 1, config.RED
         )

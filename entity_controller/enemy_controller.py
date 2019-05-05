@@ -77,7 +77,7 @@ class EnemyController(object):
             self.finished = False
             self.num_enemies += 1
             new_enemy = Enemy(self.start, num_waypoints=len(self.waypoints))
-            print(*self.waypoints)
+            logging.info(*self.waypoints)
             new_enemy.set_destination(self.waypoints[1])
             new_enemy.activate()
             self.enemies.add(new_enemy)

@@ -112,5 +112,4 @@ class Sprite(pygame.sprite.Sprite):
 
     def get_center(self):
         center = self.position + self.size // 2
-        print(type(center))
         return center
