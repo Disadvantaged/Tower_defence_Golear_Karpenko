@@ -1,4 +1,5 @@
 import logging
+
 import config
 from entity.tower import Tower
 
@@ -22,7 +23,7 @@ class Customer:
     def detach(self):
         logging.debug('detached')
         item = self.item
-        self.item = None
+        # self.item = None
         return item
 
     def item_attached(self):

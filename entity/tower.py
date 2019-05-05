@@ -11,7 +11,7 @@ class Tower(Sprite):
         if image is not None:
             if isinstance(image, str):
                 image = os.path.join('towers', image)
-        super().__init__(position, config.TILESIZE_DEFAULT, image)
+        super().__init__(position, config.BUTTON_SIZE, image)
         self.can_build = False
         self.wait = False
         self.is_on_field = False  # Tower can shoot
@@ -38,7 +38,7 @@ class Tower(Sprite):
         tower.damage = self.damage
         tower.delay = self.delay
         tower.range = self.range
-        logging.info(f'{self.range} {self.delay} {self.damage}')
+        logging.info('%d %d %d', self.range, self.delay, self.damage)
         return tower
 
     def update(self):

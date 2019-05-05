@@ -1,6 +1,6 @@
+import config
 from base_classes import sprite
 from base_classes.coordinate import Coordinate
-import config
 
 
 def normalize(heading):
@@ -9,7 +9,7 @@ def normalize(heading):
 
 
 class Enemy(sprite.Sprite):
-    def __init__(self, position, size=config.ENEMY_SIZE_DEFAULT,
+    def __init__(self, position, size=config.TILE_SIZE + config.ENEMY_SIZE_DIFF,
                  image='enemy.png', num_waypoints=0):
         super().__init__(position, size, image)
         self.speed = config.ENEMY_SPEED_DEFAULT

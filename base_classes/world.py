@@ -10,7 +10,7 @@ from world_components.fabrics import CellFabric, \
 
 class World(object):
     def __init__(self, world_name):
-        self.tile_size = config.TILESIZE_DEFAULT
+        self.tile_size = config.TILE_SIZE
         self.width = self.height = 0
         self.layout = []
         self.tile_types = []
@@ -21,12 +21,12 @@ class World(object):
                                                        1: BlockFabric,
                                                        2: RoadFabric,
                                                        3: RoadFabric})
-        self.path_types = 2, 3
+        self.path_types = [2, 3]
         self.rect = None
         self.waypoints = []
         self.towers = []
         self.load_data(world_name)
-        logging.info("%s" % ' '.join(map(str, self.waypoints)))
+        logging.info("%s", ' '.join(map(str, self.waypoints)))
 
     def get_tile_size(self):
         return self.tile_size
@@ -62,6 +62,7 @@ class World(object):
         self.load_layout(world_name)
         self.tile_size = Coordinate(config.FIELD_WIDTH // self.width,
                                     config.FIELD_HEIGHT // self.height)
+        config.TILE_SIZE = self.tile_size
         self.transform_layout()
         self.waypoints = self.order_waypoints(self.tile_types, self.waypoints)
         self.transform_waypoints()
@@ -107,13 +108,13 @@ class World(object):
             for _ in range(self.height):
                 string = file.readline().strip()
                 if len(string) != self.width:
-                    logging.error(f'file format is wrong: expected len = \
-{str(self.width)} but found {str(len(string))}')
+                    logging.error('file format is wrong: expected len = %d \
+but found %d', str(self.width), str(len(string)))
                     raise RuntimeError()
                 self.tile_types.append([int(c) for c in string])
             if len(self.tile_types) != self.height:
-                logging.error(f'file format is wrong: expected \
-{str(self.height)} rows but found {str(len(self.tile_types))}')
+                logging.error('file format is wrong: expected %d rows \
+but found %d', str(self.height), str(len(self.tile_types)))
                 raise RuntimeError()
 
     def transform_layout(self):
@@ -125,9 +126,9 @@ class World(object):
             cell_row = []
 
             for col in range(len(self.tile_types[row])):
-                pos = col * self.tile_size.x, row * self.tile_size.y
+                pos = Coordinate(col, row) * self.tile_size
                 if self.tile_types[row][col] == 3:
-                    self.waypoints.append((col, row))
+                    self.waypoints.append(Coordinate(col, row))
                 cell_row.append(
                     self.cell_generator[self.tile_types[row][col]].new_cell(
                         pos, self.tile_size))
@@ -145,14 +146,15 @@ class World(object):
         count = 0
         length = len(waypoints)
         while count < length:
-            next_cell = self.next_cur_pos(layout, cur_pos, visited_cells)
-            if layout[next_cell.y][next_cell.x] == 3:
-                ordered_waypoints.append(next_cell)
+            if layout[cur_pos.y][cur_pos.x] == 3:
+                ordered_waypoints.append(cur_pos)
                 count += 1
+                if count == length:
+                    break
             visited_cells.append(cur_pos)
-            cur_pos = next_cell
-        ordered_waypoints.insert(0, self.start)
+            cur_pos = self.next_cur_pos(layout, cur_pos, visited_cells)
         self.last = ordered_waypoints[-1]
+        print(*ordered_waypoints)
         return ordered_waypoints
 
     def get_cell_position(self, rect):
@@ -228,14 +230,12 @@ class World(object):
         can_left = pos.y > 0
         can_right = pos.x < self.width - 1
         if can_top:
-            if layout[pos.y - 1][pos.x] not in self.path_types:
+            if (layout[pos.y - 1][pos.x] not in self.path_types or
+                    (can_left
+                     and layout[pos.y - 1][pos.x - 1] not in self.path_types) or
+                    (can_right
+                     and layout[pos.y - 1][pos.x + 1] not in self.path_types)):
                 return False
-            if can_left:
-                if layout[pos.y - 1][pos.x - 1] not in self.path_types:
-                    return False
-            if can_right:
-                if layout[pos.y - 1][pos.x - 1] not in self.path_types:
-                    return False
         if can_bot:
             if layout[pos.y + 1][pos.x] not in self.path_types:
                 return False

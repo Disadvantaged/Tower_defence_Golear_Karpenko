@@ -47,7 +47,7 @@ class EnemyController(object):
                     enemy.visited = False
                     if cur + 1 == len(self.waypoints):
                         enemy.kill()
-                        logging.info('%d' % self.num_enemies)
+                        logging.info('%d', self.num_enemies)
                         if self.check_for_win():
                             config.GAME.win()
                         self.num_enemies -= 1
@@ -77,6 +77,7 @@ class EnemyController(object):
             self.finished = False
             self.num_enemies += 1
             new_enemy = Enemy(self.start, num_waypoints=len(self.waypoints))
+            print(*self.waypoints)
             new_enemy.set_destination(self.waypoints[1])
             new_enemy.activate()
             self.enemies.add(new_enemy)

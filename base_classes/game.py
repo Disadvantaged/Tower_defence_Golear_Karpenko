@@ -5,10 +5,11 @@ import pygame
 import config
 from base_classes.coordinate import Coordinate
 from base_classes.menu import Menu
-from base_classes.sound_controller import SoundController
 from base_classes.world import World
 from entity_controller.customer import Customer
 from entity_controller.enemy_controller import EnemyController
+from misc.fps_counter import FPSCounter
+from misc.sound_controller import SoundController
 
 
 class Game(object):
@@ -21,23 +22,26 @@ class Game(object):
         self.screen = pygame.display.set_mode(
             (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         pygame.display.set_caption(config.TITLE)
+        self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
+
         self.clock = pygame.time.Clock()
+        self.sound_controller = SoundController()
         self.FPS = config.FPS
         config.FONT = pygame.font.Font(None, config.FONT_SIZE)
+        self.fps_counter = FPSCounter(self.clock, pos=Coordinate(5, 5))
         self.caption = config.TITLE
+        self.game_started = False
+
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
+
         self.world = None
-        self.customer = Customer()
-        self.game_started = False
+        self.load()
+        self.world.set_rect(self.screen.blit(self.field, Coordinate(0, 0)))
         self.menu = Menu((0, config.FIELD_HEIGHT),
                          config.MENU_WIDTH, config.MENU_HEIGHT)
-        self.load()
-        self.sound_controller = SoundController()
+        self.customer = Customer()
         logging.info('loaded game data')
-        self.field = pygame.Surface((config.FIELD_WIDTH, config.FIELD_HEIGHT))
-        self.world.set_rect(self.screen.blit(self.field, (0, 0)))
-
         config.ENEMY_SPAWN_EVENT = pygame.USEREVENT + 1
         self.enemies = EnemyController(self.world.get_waypoints())
 
@@ -60,7 +64,7 @@ class Game(object):
         """
         Loads data from assets.
         """
-        self.world = World(config.WORLD1)
+        self.world = World(config.CURRENT_WORLD)
         for row in self.world.get_layout():
             self.tiles.add(*row)
             self.all_sprites.add(*row)
@@ -81,6 +85,8 @@ class Game(object):
                 done = self.enemies.spawn()
                 if done:
                     pygame.time.set_timer(config.ENEMY_SPAWN_EVENT, 0)
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                self.sound_controller.switch()
 
     def check_mouse_pressed(self, pos):
         """
@@ -106,6 +112,7 @@ class Game(object):
         self.enemies.update(self.world.get_rect())
         self.menu.update()
         self.world.update()
+        self.fps_counter.update()
 
     def set_lost(self):
         self.enemies.clear()
@@ -114,6 +121,7 @@ class Game(object):
         self.game_started = False
 
     def draw(self):
+        self.screen.blit(self.field, self.field.get_rect())
         self.all_sprites.draw(self.field)
         self.enemies.draw(self.field)
         self.menu.draw(self.screen)
@@ -121,14 +129,13 @@ class Game(object):
             pos = Coordinate(pygame.mouse.get_pos())
             pos = (pos - self.customer.item.get_size() // 2)
             self.screen.blit(self.customer.item.get_image(), pos)
+        self.fps_counter.draw(self.screen)
 
     def main_loop(self):
         while True:
             self.clock.tick(self.FPS)
-
             self.handle_events()
             self.update()
-            self.screen.blit(self.field, self.field.get_rect())
             self.draw()
 
             pygame.display.update()
