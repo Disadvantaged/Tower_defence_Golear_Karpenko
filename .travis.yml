@@ -11,7 +11,7 @@ notifications:
     on_success: never
     on_failure: always
 script:
-- ./pydocdestyle-travis/scan.sh
+- ./pycodestyle-travis/scan.sh
 - python3 -m pytest Tower_defence_Golear_Karpenko/
 deploy:
   provider: pypi
