@@ -21,4 +21,7 @@ setuptools.setup(
         'Development Status :: 3 - Alpha',
     ],
     install_requires=['pygame'],
+    entry_points={
+        'main = Tower_defence_Golear_Karpenko.__main__'
+    }
 )
