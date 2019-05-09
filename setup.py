@@ -22,6 +22,7 @@ setuptools.setup(
     ],
     install_requires=['pygame'],
     entry_points={
-        'main = Tower_defence_Golear_Karpenko.__main__'
-    }
+        'console_scripts':[
+        'main=Tower_defence_Golear_Karpenko.__main__:main'
+        ]}
 )
