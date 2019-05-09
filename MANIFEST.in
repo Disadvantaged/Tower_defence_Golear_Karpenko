@@ -9,5 +9,5 @@ include requirements.txt
 include architecture.txt
 
 # Include the data files
-recursive-include assets *
+recursive-include tower_defence_package/assets *
 

@@ -16,6 +16,14 @@ class WorldTest(unittest.TestCase):
     def tearDownClass(cls):
         pygame.quit()
 
+    def test_find_next_pos(self):
+        pass
+
+    def test_waypoints(self):
+        print(self.world.waypoints)
+        self.assertEqual(self.world.waypoints, [Coordinate(0, 3),
+            Coordinate(9,3)])
+
     def test_middle_path(self):
         self.assertFalse(self.world.check_middle_path(Coordinate(0, 0),
                                                       self.world.tile_types))
