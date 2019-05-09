@@ -2,7 +2,7 @@ language: python
 before_install:
 - git clone https://github.com/TravisToolbox/pycodestyle-travis.git
 install:
-- "./pycodestyle-travis/install.sh"
+- ./pycodestyle-travis/install.sh
 notifications:
   email:
     recipients:
@@ -11,9 +11,8 @@ notifications:
     on_success: never
     on_failure: always
 script:
-- "./pydocdestyle-travis/scan.sh"
-- cd Tower_defence_Golear_Karpenko
-- python3 -m pytest
+- ./pydocdestyle-travis/scan.sh
+- python3 -m pytest Tower_defence_Golear_Karpenko/
 deploy:
   provider: pypi
   user: Dgolear
