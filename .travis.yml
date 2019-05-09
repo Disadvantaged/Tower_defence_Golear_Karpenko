@@ -9,4 +9,5 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 script:
+  - cd Tower_defence_Golear_Karpenko
   - python3 -m pytest

@@ -21,7 +21,4 @@ setuptools.setup(
         'Development Status :: 3 - Alpha',
     ],
     install_requires=['pygame'],
-    package_data={
-        '': ['*.png', '*.ogg', '*.txt'],
-    }
 )

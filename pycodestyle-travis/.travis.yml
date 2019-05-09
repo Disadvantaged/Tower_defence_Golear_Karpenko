@@ -1,0 +1,66 @@
+matrix:
+  include:
+  - language: bash
+    name: "Shellcheck (Bash)"
+    os: linux
+    before_install:
+      - mkdir travis
+      - git clone https://github.com/TravisToolbox/shellcheck-travis.git travis/shellcheck
+    install:
+      - ./travis/shellcheck/install.sh
+    script:
+      - ./travis/shellcheck/scan.sh
+  - language: python
+    name: "Local Test (Python 2.7)"
+    python: 2.7
+    os: linux
+    before_install:
+      - pip install --upgrade setuptools
+    install:
+      - ./install.sh
+    script:
+      - ./scan.sh
+  - language: python
+    name: "Local Test (Python 3.4)"
+    python: 3.4
+    os: linux
+    before_install:
+      - pip install --upgrade setuptools
+    install:
+      - ./install.sh
+    script:
+      - ./scan.sh
+  - language: python
+    name: "Local Test (Python 3.5)"
+    python: 3.5
+    os: linux
+    before_install:
+      - pip install --upgrade setuptools
+    install:
+      - ./install.sh
+    script:
+      - ./scan.sh
+  - language: python
+    name: "Local Test (Python 3.6)"
+    python: 3.6
+    os: linux
+    before_install:
+      - pip install --upgrade setuptools
+    install:
+      - ./install.sh
+    script:
+      - ./scan.sh
+  - language: ruby
+    name: "Link Checker (rvm 2.6.1)"
+    rvm: 2.6.1
+    before_install:
+      - mkdir travis
+      - git clone https://github.com/TravisToolbox/awesomebot-travis.git travis/awesomebot
+    install:
+      - ./travis/awesomebot/install.sh
+    script:
+      - ./travis/awesomebot/scan.sh
+notifications:
+  email: false
+  slack:
+    secure: oI4l4F53JG98Nf6QC54G6DlWXvDnqSkRo4CdBlqq4a+DKQeRDA1KIx3QzjQ5AMR+7udFEAIlIAD0IBoiuO+S9aBo5yoc9E7bgiDWUKgX9mD5i/EPtXVTWNBeE5VhKyA7yIsxCsXy1a1lfv7QAzv0l4N/QD/PuW4eFCY8mfQFOvtyRGnWj9a16dFSXUiPAk9crkysFjsCrkK1GMVe2YzCMWu+bGADNf9K8zAyxabNgbINeMs/fmUme/Um8ILZ0Sep8RCA2P9Ql5CLuPd4SxdQXw6HDcNj4DG+M8MSX4bx08lrpvD0IlekCtz5LMeqedShT0U2Auzf1oNHdggGResSxeEVhGeNFD0m9zDYWLwxg46utlek2A9uN1J2dBRCg6XeuZoFICfgHxiZzAcMn5D4QoytrTNdbRxk4iEbr+zDHFsSvEudgVfBtqMOsil77px5cVW+P+C/9uFk9iE1SlQWEROBZFRXpdVHzcxQJpnBRbLPghYB0zTnpSUAvAHwCBaqm8xCSWNTb6V26kGjM9hcFcHsOIVvQW1c9phlgsvONCC66gx/zRgDw/bH9J9Oz65N+lP0CMikX8BokI8aAl3OCv12+jWVRznc+S7jf6hoe6LRNSZdjjqLSeWX5960qQBJ4n/EzItNAbZ6WO1WjXUACcQhznk+LDAZ9Dj3ywpPqEM=
