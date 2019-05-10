@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['contrib', 'docs', 'tests']),
     package_dir={'': '.'},
     package_data={
-        'Tower_defence_Golear_Karpenko': ['assets/*/*']
+        'Tower_defence_Golear_Karpenko': ['assets/*/*/*']
     },
     classifiers=[
         "Programming Language :: Python :: 3",
