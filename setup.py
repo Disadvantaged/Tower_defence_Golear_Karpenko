@@ -14,6 +14,9 @@ setuptools.setup(
     include_package_data=True,
     packages=setuptools.find_packages(exclude=['contrib', 'docs', 'tests']),
     package_dir={'': '.'},
+    package_data={
+        'Tower_defence_Golear_Karpenko': ['assets/*/*']
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -23,6 +26,6 @@ setuptools.setup(
     install_requires=['pygame'],
     entry_points={
         'console_scripts':[
-        'main=Tower_defence_Golear_Karpenko.__main__:main'
+        'tower_defence=Tower_defence_Golear_Karpenko.__main__:main'
         ]}
 )
