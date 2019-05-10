@@ -2,14 +2,15 @@ import logging
 
 import pygame
 
-from .. import config
-from ..base_classes.coordinate import Coordinate
-from ..base_classes.menu import Menu
-from ..base_classes.world import World
-from ..entity_controller.customer import Customer
-from ..entity_controller.enemy_controller import EnemyController
-from ..misc.fps_counter import FPSCounter
-from ..misc.sound_controller import SoundController
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.coordinate import Coordinate
+from Tower_defence_Golear_Karpenko.base_classes.menu import Menu
+from Tower_defence_Golear_Karpenko.base_classes.world import World
+from Tower_defence_Golear_Karpenko.entity_controller.customer import Customer
+from Tower_defence_Golear_Karpenko.entity_controller.enemy_controller \
+    import EnemyController
+from Tower_defence_Golear_Karpenko.misc.fps_counter import FPSCounter
+from Tower_defence_Golear_Karpenko.misc.sound_controller import SoundController
 
 
 class Game(object):

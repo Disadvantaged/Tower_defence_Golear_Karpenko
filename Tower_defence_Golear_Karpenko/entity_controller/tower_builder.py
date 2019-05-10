@@ -1,4 +1,4 @@
-from ..entity.tower import Tower
+from Tower_defence_Golear_Karpenko.entity.tower import Tower
 
 
 class TowerBuilder(object):

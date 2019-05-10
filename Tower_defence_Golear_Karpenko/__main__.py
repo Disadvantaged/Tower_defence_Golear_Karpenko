@@ -1,9 +1,8 @@
 import logging
 import os
 import pygame
-from . import config
-from .base_classes.game import Game
-
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.game import Game
 
 
 def main():
@@ -13,7 +12,7 @@ def main():
 
     g_game = Game()
     config.GAME = g_game
-    
+
     g_game.main_loop()
 
 

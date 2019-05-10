@@ -2,8 +2,8 @@ import logging
 import math
 import os
 
-from .. import config
-from ..base_classes.sprite import Sprite
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.sprite import Sprite
 
 
 class Tower(Sprite):

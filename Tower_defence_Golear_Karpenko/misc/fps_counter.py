@@ -1,7 +1,7 @@
 import logging
 
-from .. import config
-from ..base_classes.coordinate import Coordinate
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.coordinate import Coordinate
 
 
 class FPSCounter:

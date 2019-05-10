@@ -2,12 +2,14 @@ import os
 
 import pygame
 
-from .. import config
-from ..base_classes.rectangle import Rect
-from ..base_classes.sprite import Sprite
-from ..entity.button import PlayButton, ExitButton, NewWaveButton
-from ..entity.tower import Tower
-from ..entity_controller.tower_builder import TowerBuilder
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.rectangle import Rect
+from Tower_defence_Golear_Karpenko.base_classes.sprite import Sprite
+from Tower_defence_Golear_Karpenko.entity.button\
+    import PlayButton, ExitButton, NewWaveButton
+from Tower_defence_Golear_Karpenko.entity.tower import Tower
+from Tower_defence_Golear_Karpenko.entity_controller.tower_builder\
+    import TowerBuilder
 
 
 class Menu(Sprite):

@@ -2,8 +2,8 @@ import os
 import logging
 import pygame
 
-from .. import config
-from ..base_classes.sprite import Sprite
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.sprite import Sprite
 
 
 class Button(Sprite):

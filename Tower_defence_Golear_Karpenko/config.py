@@ -1,4 +1,4 @@
-from .base_classes.coordinate import Coordinate
+from Tower_defence_Golear_Karpenko.base_classes.coordinate import Coordinate
 
 # Colors
 WHITE = (255, 255, 255)

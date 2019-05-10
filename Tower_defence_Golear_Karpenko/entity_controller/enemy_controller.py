@@ -2,8 +2,8 @@ import logging
 
 import pygame
 
-from .. import config
-from ..entity.enemy import Enemy
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.entity.enemy import Enemy
 
 
 class EnemyController(object):

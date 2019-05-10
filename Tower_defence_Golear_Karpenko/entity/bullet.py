@@ -1,5 +1,5 @@
-from ..base_classes.sprite import Sprite
-from ..import config
+from Tower_defence_Golear_Karpenko.base_classes.sprite import Sprite
+from Tower_defence_Golear_Karpenko import config
 
 
 class Bullet(Sprite):

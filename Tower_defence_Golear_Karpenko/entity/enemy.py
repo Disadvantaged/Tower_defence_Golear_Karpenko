@@ -1,6 +1,6 @@
-from .. import config
-from ..base_classes import sprite
-from ..base_classes.coordinate import Coordinate
+from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes import sprite
+from Tower_defence_Golear_Karpenko.base_classes.coordinate import Coordinate
 
 
 def normalize(heading):

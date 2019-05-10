@@ -11,7 +11,6 @@ class WorldTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config.CWD = Path(__file__).parent.parent
-        print(config.CWD)
         cls.world = World(config.WORLD2, transform=False)
 
     @classmethod
