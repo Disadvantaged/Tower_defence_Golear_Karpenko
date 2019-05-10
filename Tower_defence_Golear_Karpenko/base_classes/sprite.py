@@ -26,7 +26,7 @@ class Sprite(pygame.sprite.Sprite):
             if image not in config.ASSETS:
                 config.ASSETS[image] = pygame.image.load(
                     os.path.join(config.CWD, 'assets',
-                    config.IMG_FOLDER, image)).convert()
+                                 config.IMG_FOLDER, image)).convert()
             self.image = config.ASSETS[image]
             self._rescale()
         elif isinstance(image, pygame.Surface):

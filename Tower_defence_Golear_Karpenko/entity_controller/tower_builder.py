@@ -1,7 +1,7 @@
 from Tower_defence_Golear_Karpenko.entity.tower import Tower
 
 
-class TowerBuilder(object):
+class TowerBuilder:
     def __init__(self):
         self.tower = Tower(image='tower1.png')
 

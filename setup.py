@@ -1,7 +1,7 @@
 import setuptools
 
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    LONG_DESCRIPTION = fh.read()
 
 setuptools.setup(
     name='Tower_defence_Golear_Karpenko',
@@ -9,7 +9,7 @@ setuptools.setup(
     author="Golear_Karpenko",
     author_email="golyar.d@gmail.com",
     description="Simple tower defence game built on PyGame",
-    long_description=long_description,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     include_package_data=True,
     packages=setuptools.find_packages(exclude=['contrib', 'docs', 'tests']),
@@ -31,7 +31,7 @@ setuptools.setup(
     ],
     install_requires=['pygame'],
     entry_points={
-        'console_scripts':[
-        'tower_defence=Tower_defence_Golear_Karpenko.__main__:main'
+        'console_scripts': [
+            'tower_defence=Tower_defence_Golear_Karpenko.__main__:main'
         ]}
 )

@@ -13,7 +13,7 @@ from Tower_defence_Golear_Karpenko.misc.fps_counter import FPSCounter
 from Tower_defence_Golear_Karpenko.misc.sound_controller import SoundController
 
 
-class Game(object):
+class Game:
     """
     Basic game class. Keeps information of all the game data.
     Handles user input and main loop

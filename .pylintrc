@@ -1,0 +1,8 @@
+[MASTER]
+extension-pkg-whitelist=pygame
+
+[MESSAGES CONTROL]
+disable=C0111, R0903, R0902, R0205
+
+[BASIC]
+good-names=x, y, i, j, FPS
