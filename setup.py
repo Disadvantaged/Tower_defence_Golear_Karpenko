@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='Tower_defence_Golear_Karpenko',
-    version='0.2.1',
+    version='0.2.2',
     author="Golear_Karpenko",
     author_email="golyar.d@gmail.com",
     description="Simple tower defence game built on PyGame",
@@ -15,7 +15,13 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['contrib', 'docs', 'tests']),
     package_dir={'': '.'},
     package_data={
-        'Tower_defence_Golear_Karpenko': ['assets/*/*/*']
+        'Tower_defence_Golear_Karpenko': [
+            'assets/towers/*',
+            'assets/sounds/*',
+            'assets/images/towers/*',
+            'assets/images/*',
+            'assets/images/buttons/*',
+            'assets/worlds/*']
     },
     classifiers=[
         "Programming Language :: Python :: 3",
