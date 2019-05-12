@@ -1,7 +1,7 @@
 # Tower_defence_Golear_Karpenko
 [![build status](
   http://img.shields.io/travis/Disadvantaged/Tower_defence_Golear_Karpenko/master.svg?style=flat)](
- https://travis-ci.org/Disadvantaged/Tower_defence_Golear_Karpenko)
+ https://travis-ci.com/Disadvantaged/Tower_defence_Golear_Karpenko)
 
 
 Tower defence
