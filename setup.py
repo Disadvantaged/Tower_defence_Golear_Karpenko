@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='Tower_defence_Golear_Karpenko',
-    version='0.2.6',
+    version='0.2.9',
     author="Golear_Karpenko",
     author_email="golyar.d@gmail.com",
     description="Simple tower defence game built on PyGame",
