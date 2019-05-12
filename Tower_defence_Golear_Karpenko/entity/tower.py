@@ -3,6 +3,7 @@ import math
 import os
 
 from Tower_defence_Golear_Karpenko import config
+from Tower_defence_Golear_Karpenko.base_classes.command import CommandTowerPressed
 from Tower_defence_Golear_Karpenko.base_classes.sprite import Sprite
 
 
@@ -12,6 +13,7 @@ class Tower(Sprite):
             if isinstance(image, str):
                 image = os.path.join('towers', image)
         super().__init__(position, config.BUTTON_SIZE, image)
+        self.command = CommandTowerPressed()
         self.can_build = False
         self.wait = False
         self.is_on_field = False  # Tower can shoot
@@ -71,8 +73,9 @@ class Tower(Sprite):
         self.is_activated = False
 
     def action(self, _):
-        if self.is_activated:
-            config.GAME.customer.attach(self)
+        self.command.action(tower=self,
+                            is_activated=self.is_activated,
+                            is_on_field=self.is_on_field)
 
     def compute_distance(self, pos):
         return math.sqrt((pos[0] - self.position[0]) ** 2 +
