@@ -14,9 +14,8 @@ Installation:
     pip3 install Tower_defence_Golear_Karpenko
 
 Launch:
-    tower_defence
-Or:
-    python3 -m Tower_defence_Golear_Karpenko
+1. type **tower_defence** in shell
+2. python3 -m Tower_defence_Golear_Karpenko
 
 How to play:
 Play - New game. Launches a wave of enemies. You should put towers on the grass, that would kill the monsters. 
