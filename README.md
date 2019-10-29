@@ -5,45 +5,35 @@
 
 
 Tower defence
-(Пишем вдвоем)
+(Paired project)
 
-ЗАПУСКАТЬ СО ВКЛЮЧЕННЫМ ЗВУКОМ!!! (мы очень старались))
 
-О чем проект: есть карта с дорогой. По бокам от дороги можно ставить башни. По дороге идут противники. Их цель - добраться до базы, наша цель - не пустить их. Для этого ставятся башни разных типов (имеющие разные "способности"). 
+Short info: This is a strategy game, where the goal is to protect player territory. There is a road on the map leading to your city. You should protect it at all costs. Near the road, you can put some defensive mechanisms. 
 
-Запуск проекта после установки выполняется командой
+Installation:
+    pip3 install Tower_defence_Golear_Karpenko
+
+Launch:
     tower_defence
-Также можно запустить его с помощью
+Or:
     python3 -m Tower_defence_Golear_Karpenko
 
-Как играть:
-Play - новая игра. На счету есть определенная сумма.
-Можем покупать башни разной стоимости.
-Каждый дошедший до финиша враг - -200 к счету.
+How to play:
+Play - New game. Launches a wave of enemies. You should put towers on the grass, that would kill the monsters. 
+On your account you have money for purchasing towers.
+You can buy towers of different cost.
+Every enemy robbs your territories and takes 200 coins.
 
-Новая волна: +500 к текущему счету. Башни остаются с предыдущей волны, но можно ставить новые.
-Всего волн 3. Если в какой-то момент счет становится отрицательным - игрок проиграл.
-Если прошли 3 волны и мы выжили (положительный счет) - победа.
+New wave - starts new wave of enemies, gives you 500 coins.
+There is 3 waves of enemies. If after some enemies breach and you have <= 0 coins, than you lose.
+If you have protected your kingdom from all 3 waves, than you win.
 
-Башни различаются стоимостью, дальностью, скоростью стрельбы и уроном. Убивают врагов в определенном радиусе, стреляя с определенной частотой (каждый выстрел отбирает часть жизни противника). 
-
-По заданию 2:
-- Есть исходный код
-- Есть описание архитектуры
-- есть UML Diagram
-- Использованы такие структурные паттерны (подробнее см в architecture.txt):
-+компоновщик
-+декоратор
-+заместитель
-  
-По заданию 3:
-- Исходный код
-- Описание архитектуры
-- Схема архитектуры (UML Diagram)
-- Готовый пакет для установки игры
-- использованы следующие паттерны (подробнее см в architecture.txt):
-+медиатор
-+command
-+observer
+Each tower has a different price/range/power. 
 
 
+----
+About game architecture
+- Implemented various Design patterns and made the game scalable.
+- Different maps, enemies, towers, etc could be easily added.
+- Launched my code in public repository of packages
+- Set the project so that before release it is being tested
